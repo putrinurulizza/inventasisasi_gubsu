@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,6 +15,7 @@ class UserController extends Controller
         return view('dashboard.user.index',
         [
             'title' => 'Data User',
+            'users' => User::all(),
         ]);
     }
 
@@ -30,7 +32,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nama' => 'required|max:255',
+            'username' => ['required', 'min:6', 'max:16', 'unique:users'],
+            'password' => 'required|min:5|max:255',
+            'is_admin' => 'required',
+        ]);
+
+        $validatedData['password'] = Hash::make($validatedData['password']);
+
+        User::create($validatedData);
+
+        return redirect()->route('user.index')->with('success', 'User baru berhasil ditambahkan!');
     }
 
     /**
@@ -52,16 +65,35 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $rules = [
+            'nama' => 'required|max:255',
+            'username' => 'required|min:5|max:255|unique:users,username,' . $user->id,
+            'is_admin' => 'required',
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        User::where('id', $user->id)->update($validatedData);
+
+        return redirect()->route('user.index')->with('success', "Data User $user->nama berhasil diperbarui!");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        try {
+            User::destroy($user->id);
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                //SQLSTATE[23000]: Integrity constraint violation
+                return redirect()->route('user.index')->with('failed', "User $user->nama tidak dapat dihapus, karena sedang digunakan pada tabel lain!");
+            }
+        }
+
+        return redirect()->route('user.index')->with('success', "User $user->nama berhasil dihapus!");
     }
 }

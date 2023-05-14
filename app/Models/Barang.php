@@ -12,12 +12,14 @@ class Barang extends Model
     protected $guarded = ['id'];
 
     protected $fillable = [
+        'id_kategori',
         'kode_barang',
-        'deskripsi',
+        'deskripsi_barang',
         'serial_number',
         'lokasi_user',
+        'tahun_pengadaan',
         'keterangan',
-        'kondisi barang'
+        'kondisi_barang'
     ];
 
     public function Kategori()

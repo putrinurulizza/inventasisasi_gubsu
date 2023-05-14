@@ -18,21 +18,21 @@
 
         <li class="nav-item">
           <a class="nav-link has-arrow {{ Request::is('dashboard/barang') ? 'active' : '' }}" href="/dashboard/barang">
-            <i class="fa-regular nav-icon fa-list me-2 fa-fw"></i>
+            <i class="fa-solid fa-box-open me-2 fa-fw"></i>
             Barang
           </a>
         </li>
 
         <li class="nav-item">
           <a class="nav-link has-arrow {{ Request::is('dashboard/peminjaman') ? 'active' : '' }}" href="/dashboard/peminjaman">
-            <i class="fa-regular nav-icon fa-list me-2 fa-fw"></i>
+            <i class="fa-solid fa-calendar-week me-2 fa-fw"></i>
             Peminjaman
           </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link has-arrow {{ Request::is('dashboard/laporan') ? 'active' : '' }}" href="/dashboard/laporan">
-              <i class="fa-regular nav-icon fa-list me-2 fa-fw"></i>
+                <i class="fa-solid fa-book me-2 fa-fw"></i>
               Laporan
             </a>
           </li>
@@ -50,7 +50,7 @@
 
         <li class="nav-item">
           <a class="nav-link has-arrow {{ Request::is('dashboard/user') ? 'active' : '' }}" href="/dashboard/user">
-            <i class="fa-regular nav-icon fa-list me-2 fa-fw"></i>
+            <i class="fa-solid fa-user me-2 fa-fw"></i>
             User
           </a>
         </li>

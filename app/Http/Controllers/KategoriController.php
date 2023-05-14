@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -14,6 +15,7 @@ class KategoriController extends Controller
         return view('dashboard.kategori.index',
         [
             'title' => 'Data Kategori',
+            'kategoris' =>  Kategori::all()
         ]);
     }
 
@@ -30,7 +32,13 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'kategori' => 'required|unique:kategoris'
+        ]);
+
+        Kategori::create($validatedData);
+
+        return redirect()->route('kategori.index')->with('success', 'Kategori baru berhasil ditambahkan!');
     }
 
     /**
@@ -52,16 +60,34 @@ class KategoriController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Kategori $kategori)
     {
-        //
+        $rules =[
+            'kategori' => 'required|unique:kategoris,kategori,' . $kategori->id,
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        Kategori::where('id', $kategori->id)->update($validatedData);
+
+        return redirect()->route('kategori.index')->with('success', "Data kategori $kategori->kategori berhasil diperbarui!");
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Kategori $kategori)
     {
-        //
+        try {
+            Kategori::destroy($kategori->id);
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                //SQLSTATE[23000]: Integrity constraint violation
+                return redirect()->route('kategori.index')->with('failed', "Kategori $kategori->kategori tidak dapat dihapus, karena sedang digunakan pada tabel lain!");
+            }
+        }
+
+        return redirect()->route('kategori.index')->with('success', "Kategori $kategori->kategori berhasil dihapus!");
     }
 }

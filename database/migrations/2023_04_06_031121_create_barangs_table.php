@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('deskripsi_barang');
             $table->string('serial_number')->unique();
             $table->string('lokasi_user');
-            $table->date('tahun_pengadaan')->nullable();
+            $table->year('tahun_pengadaan')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('kondisi_barang');
             $table->timestamps();

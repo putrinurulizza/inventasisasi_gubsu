@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Kategori;
+use App\Models\Barang;
 use Illuminate\Http\Request;
 
 class BarangController extends Controller
@@ -11,10 +14,14 @@ class BarangController extends Controller
      */
     public function index()
     {
+        $barangs = Barang::all();
         return view('dashboard.barang.index',
         [
             'title' => 'Data Barang',
-        ]);
+            'kategoris' => Kategori::all(),
+            'barangs' => Barang::with('kategori')->where('id_kategori')->get()
+        ])->with(compact('barangs'));
+        ;
     }
 
     /**
@@ -30,7 +37,20 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'kode_barang' => 'required|max:255|unique:barangs',
+            'id_kategori' => 'required',
+            'deskripsi_barang' => 'required|max:255',
+            'serial_number' => 'required|unique:barangs',
+            'lokasi_user' => 'required',
+            'tahun_pengadaan' => 'nullable',
+            'keterangan' => 'nullable',
+            'kondisi_barang' => 'required'
+        ]);
+
+        Barang::create($validatedData);
+
+        return redirect()->route('barang.index')->with('success', 'Barang baru berhasil ditambahkan!');
     }
 
     /**
@@ -52,16 +72,41 @@ class BarangController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Barang $barang)
     {
-        //
+        $rules = [
+            'kode_barang' => 'required|max:255|unique:barangs,kode_barang,' . $barang->id,
+            'id_kategori' => 'required',
+            'deskripsi_barang' => 'required|max:255',
+            'serial_number' => 'required|unique:barangs,serial_number,' . $barang->id,
+            'lokasi_user' => 'required',
+            'tahun_pengadaan' => 'nullable',
+            'keterangan' => 'nullable',
+            'kondisi_barang' => 'required'
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        $barang->update($validatedData);
+        // Barang::where('id', $barang->id)->update($validatedData);
+
+        return redirect()->route('barang.index')->with('success', "Data barang $barang->deskripsi_barang berhasil diperbarui!");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Barang $barang)
     {
-        //
+        try {
+            Barang::destroy($barang->id);
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                //SQLSTATE[23000]: Integrity constraint violation
+                return redirect()->route('barang.index')->with('failed', "Barang $barang->deskripsi_barang tidak dapat dihapus, karena sedang digunakan pada tabel lain!");
+            }
+        }
+
+        return redirect()->route('barang.index')->with('success', "Barang $barang->deskripsi_barang berhasil dihapus!");
     }
 }
