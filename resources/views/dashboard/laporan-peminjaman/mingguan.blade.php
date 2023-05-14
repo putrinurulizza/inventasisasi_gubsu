@@ -4,14 +4,6 @@
     <div class="container">
         <h2 class="main-title mt-2 fw-semibold fs-3">Laporan Peminjaman</h2>
         <div class="row mt-3">
-            <div class="col-lg-3">
-                <label for="floatingInput">Tanggal awal</label>
-                <input type="text" id="min" name="min" class="form-control" placeholder="">
-            </div>
-            <div class="col-lg-3">
-                <label for="floatingInput">Tanggal akhir</label>
-                <input type="text" id="max" name="max" class="form-control" placeholder="">
-            </div>
             <div class="col">
                 <div class="card mt-2">
                     <div class="card-body">
@@ -65,35 +57,8 @@
 
 @section('scripts')
     <script>
-        var minDate, maxDate;
-        // Custom filtering function which will search data in column four between two values
-        $.fn.dataTable.ext.search.push(
-            function(settings, data, dataIndex) {
-                var min = minDate.val();
-                var max = maxDate.val();
-                var date = new Date(data[1]);
-
-                if (
-                    (min === null && max === null) ||
-                    (min === null && date <= max) ||
-                    (min <= date && max === null) ||
-                    (min <= date && date <= max)
-                ) {
-                    return true;
-                }
-                return false;
-            }
-        );
 
         $(document).ready(function() {
-
-            // Create date inputs
-            minDate = new DateTime($('#min'), {
-                format: 'Do MMMM YYYY'
-            });
-            maxDate = new DateTime($('#max'), {
-                format: 'Do MMMM YYYY'
-            });
 
             var table = $('#Table').DataTable({
                 "language": {
@@ -108,15 +73,6 @@
                 .appendTo('#Table_wrapper .col-md-6:eq()').css({
                     "marginTop": "10px"
                 });
-
-            // Refilter the table
-            $('#min, #max').on('change', function() {
-                table.draw();
-            });
-
-            $('.dataTables_filter input[type="search"]').css({
-                "marginBottom": "10px"
-            });
         });
     </script>
 @endsection

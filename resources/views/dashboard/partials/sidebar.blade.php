@@ -44,7 +44,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link has-arrow {{ Request::is('dashboard/laporan/laporan-peminjaman') ? 'active' : '' }}" href="{{ route('laporan-peminjaman.index') }}">
+              <a class="nav-link has-arrow {{ Request::is('dashboard/laporan/laporan-peminjaman') ? 'active' : '' }}" href="{{ route('laporan-peminjaman-utama.index') }}">
                 Laporan Peminjaman
               </a>
             </li>

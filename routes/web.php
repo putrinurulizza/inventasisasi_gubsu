@@ -1,14 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PeminjamanController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\LaporanBarangController;
 use App\Http\Controllers\LaporanPeminjamanController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LaporanMingguanPeminjamanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +42,10 @@ Route::prefix('/dashboard')->group(function (){
     Route::prefix('/laporan')->group(function () {
         Route::resource('/laporan-barang', LaporanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
-        Route::resource('/laporan-peminjaman', LaporanPeminjamanController::class)->except(['create', 'show'])->middleware('auth');
+        Route::prefix('/laporan-peminjaman', )->group(function () {
+            Route::resource('/laporan-peminjaman-utama', LaporanPeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+            Route::resource('/laporan-peminjaman-mingguan', LaporanMingguanPeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+        });
     });
 });
 
