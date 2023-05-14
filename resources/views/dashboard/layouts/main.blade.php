@@ -4,6 +4,8 @@
 <head>
     @include('dashboard.partials.head')
     <title>@yield('title', 'Dashboard') | Diskominfo Provsu</title>
+    @yield('head')
+
 </head>
 
 <body class="bg-light">
