@@ -6,7 +6,8 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LaporanBarangController;
+use App\Http\Controllers\LaporanPeminjamanController;
 use App\Http\Controllers\DashboardController;
 
 /*
@@ -38,7 +39,9 @@ Route::prefix('/dashboard')->group(function (){
     Route::resource('/user', UserController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
     Route::prefix('/laporan')->group(function () {
-        Route::get('/', [LaporanController::class, 'index'])->middleware('auth');
+        Route::resource('/laporan-barang', LaporanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+
+        Route::resource('/laporan-peminjaman', LaporanPeminjamanController::class)->except(['create', 'show'])->middleware('auth');
     });
 });
 
