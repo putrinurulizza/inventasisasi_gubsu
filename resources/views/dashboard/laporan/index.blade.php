@@ -9,7 +9,7 @@
                 <div class="card mt-2">
                     <div class="card-body">
                         {{-- Tabel laporan peminjaman --}}
-                        <table id="myTable"
+                        <table id="tableku"
                             class="table display1 responsive nowrap table-bordered table-striped align-middle "
                             style="width:100%">
                             <thead>
@@ -32,7 +32,7 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#editUser}">
+                                            data-bs-target="#editUser">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
                                         <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
@@ -51,11 +51,16 @@
     </div>
 @endsection
 
-@section('head')
+@section('scripts')
     <script>
         $(document).ready(function() {
-            $('table.display1').DataTable();
-            $('table.display2').DataTable();
+            $('#tableku').DataTable({
+                ordering: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'pdfHtml5', 'excelHtml5'
+                ]
+            });
         });
     </script>
 @endsection
