@@ -27,7 +27,7 @@
                 <div class="card mt-2">
                     <div class="card-body">
 
-                        {{-- Tabel Data Rekening --}}
+                        {{-- Tabel Data Barang --}}
                         <table id="myTable" class="table responsive nowrap table-bordered table-striped align-middle"
                             style="width:100%">
                             <thead>
@@ -187,7 +187,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- / Tabel Data Rekening --}}
+                        {{-- / Tabel Data Barang --}}
                     </div>
                 </div>
             </div>

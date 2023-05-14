@@ -17,7 +17,6 @@ return new class extends Migration
             $table->dateTime('tgl_kembali')->nullable();
             $table->string('nama_peminjam');
             $table->string('bidang');
-            $table->foreignId('id_barang')->constrained('barangs')->onUpdate('cascade')->onDelete('restrict');
             $table->string('keterangan')->nullable();
             $table->timestamps();
         });

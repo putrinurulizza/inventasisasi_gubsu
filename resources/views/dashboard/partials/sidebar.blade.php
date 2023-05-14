@@ -30,12 +30,27 @@
           </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link has-arrow {{ Request::is('dashboard/laporan') ? 'active' : '' }}" href="/dashboard/laporan">
-                <i class="fa-solid fa-book me-2 fa-fw"></i>
-              Laporan
-            </a>
-          </li>
+      <li class="nav-item">
+        <a class="nav-link has-arrow {{ Request::is('dashboard/laporan*') ? '' : 'collapsed' }}" href="#!" data-bs-toggle="collapse" data-bs-target="#navLaporan" aria-expanded="false" aria-controls="navLaporan">
+            <i class="fa-solid fa-book me-2 fa-fw"></i>
+          Laporan
+        </a>
+
+        <div id="navLaporan" class="collapse {{ Request::is('dashboard/laporan*') ? 'show' : '' }}" data-bs-parent="#sideNavbar">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang') ? 'active' : '' }}" href="{{ route('laporan-barang.index') }}">
+                Laporan Barang
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link has-arrow {{ Request::is('dashboard/laporan/laporan-peminjaman') ? 'active' : '' }}" href="{{ route('laporan-peminjaman.index') }}">
+                Laporan Peminjaman
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
 
         <li class="nav-item px-5">
           <hr class=" nav-link text-white p-0">
