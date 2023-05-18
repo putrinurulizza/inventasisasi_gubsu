@@ -26,10 +26,10 @@
                                     <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-mingguan') ? 'active' : '' }}" href="{{ route('laporan-peminjaman-mingguan.index') }}">Mingguan</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Bulanan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-bulanan') ? 'active' : '' }}" href="{{ route('laporan-peminjaman-bulanan.index') }}">Bulanan</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link">Tahunan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-tahunan') ? 'active' : '' }}" href="{{ route('laporan-peminjaman-tahunan.index') }}">Tahunan</a>
                                 </li>
                             </ul>
                             <thead>
@@ -41,18 +41,26 @@
                                     <th>BIDANG</th>
                                     <th>BARANG</th>
                                     <th>KETERANGAN</th>
+                                    <th hidden>TANGGAL</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($laporans as $laporan)
                                 <tr>
-                                    <td>1</td>
-                                    <td>2022-10-12</td>
-                                    <td>2022-10-14</td>
-                                    <td>Tajul</td>
-                                    <td>TIK</td>
-                                    <td>'• ' MIC <br> '• ' Sound</td>
-                                    <td>Keperluan Acara</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $laporan->tgl_pinjam }}</td>
+                                    <td>{{ $laporan->tgl_kembali }}</td>
+                                    <td>{{ $laporan->nama_peminjam }}</td>
+                                    <td>{{ $laporan->bidang }}</td>
+                                    <td>
+                                        @foreach ($laporan->detailsPeminjamans as $barang)
+                                            {!! '• ' . $barang->barang->deskripsi_barang . '<br>' !!}
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $laporan->keterangan }}</td>
+                                    <td hidden>{{ $laporan->created_at }}</td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         {{-- / Tabel Data Peminjaman --}}
@@ -72,7 +80,6 @@
                 var min = minDate.val();
                 var max = maxDate.val();
                 var date = new Date(data[1]);
-
                 if (
                     (min === null && max === null) ||
                     (min === null && date <= max) ||

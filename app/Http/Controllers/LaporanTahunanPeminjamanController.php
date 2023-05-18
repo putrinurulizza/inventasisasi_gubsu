@@ -2,25 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DetailPeminjaman;
+use Carbon\Carbon;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 
-
-class LaporanPeminjamanController extends Controller
+class LaporanTahunanPeminjamanController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(DetailPeminjaman $peminjaman)
+    public function index()
     {
-        $laporans = Peminjaman::with('detailsPeminjamans')->get();
+        $currentStartYear = Carbon::now()->subYear()->startOfYear();
+        $currentEndYear = Carbon::now()->subYear()->endOfYear();
 
-        return view('dashboard.laporan-peminjaman.index',
+        $laporans = Peminjaman::with('detailsPeminjamans')->whereBetween('created_at', [$currentStartYear, $currentEndYear])->get();
+
+        return view('dashboard.laporan-peminjaman.tahunan',
         [
-            'title' => 'Laporan Peminjaman'
+            'title' => 'Laporan Peminjaman Tahunan',
         ])->with(compact('laporans'));
     }
 

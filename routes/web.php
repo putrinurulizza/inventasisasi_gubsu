@@ -9,6 +9,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\LaporanBarangController;
 use App\Http\Controllers\LaporanPeminjamanController;
+use App\Http\Controllers\LaporanBulananPeminjamanController;
+use App\Http\Controllers\LaporanTahunanPeminjamanController;
 use App\Http\Controllers\LaporanMingguanPeminjamanController;
 
 /*
@@ -45,6 +47,8 @@ Route::prefix('/dashboard')->group(function (){
         Route::prefix('/laporan-peminjaman', )->group(function () {
             Route::resource('/laporan-peminjaman-utama', LaporanPeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
             Route::resource('/laporan-peminjaman-mingguan', LaporanMingguanPeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+            Route::resource('/laporan-peminjaman-bulanan', LaporanBulananPeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+            Route::resource('/laporan-peminjaman-tahunan', LaporanTahunanPeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
         });
     });
 });

@@ -2,22 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\DetailPeminjaman;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Peminjaman extends Model
 {
     use HasFactory;
 
+    protected $table = 'peminjamans';
     protected $guarded = ['id'];
 
-    public function Barang()
+    public function detailsPeminjamans()
     {
-        return $this->belongsTo(Barang::class, 'id_barang');
-    }
-
-    public function DetailPeminjaman()
-    {
-        return $this->hasMany(DetailPeminjaman::class);
+        return $this->hasMany(DetailPeminjaman::class, 'id_peminjaman');
     }
 }

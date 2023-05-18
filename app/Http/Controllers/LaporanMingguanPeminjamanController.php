@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 
 class LaporanMingguanPeminjamanController extends Controller
@@ -13,10 +15,16 @@ class LaporanMingguanPeminjamanController extends Controller
      */
     public function index()
     {
+        // Mendapatkan tanggal awal dan akhir minggu saat ini
+        $currentStartWeek = Carbon::now()->subWeek()->startOfWeek();
+        $currentEndWeek = Carbon::now()->subWeek()->endOfWeek();
+
+        $laporans = Peminjaman::with('detailsPeminjamans')->whereBetween('created_at', [$currentStartWeek, $currentEndWeek])->get();
+
         return view('dashboard.laporan-peminjaman.mingguan',
         [
             'title' => 'Laporan Peminjaman Mingguan',
-        ]);
+        ])->with(compact('laporans'));
     }
 
     /**

@@ -27,8 +27,8 @@ class Barang extends Model
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
 
-    public function Peminjaman()
+    public function DetailPeminjaman()
     {
-        return $this->belongsTo(Peminjaman::class, 'id_peminjaman');
+        return $this->hasMany(DetailPeminjaman::class);
     }
 }
