@@ -14,14 +14,24 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barangs = Barang::all();
-        return view('dashboard.barang.index',
-        [
+        $barangs = Barang::with('kategori')->get();
+        $kategoris = Kategori::all();
+
+        return view('dashboard.barang.index', [
             'title' => 'Data Barang',
-            'kategoris' => Kategori::all(),
-            'barangs' => Barang::with('kategori')->where('id_kategori')->get()
-        ])->with(compact('barangs'));
-        ;
+            'kategoris' => $kategoris,
+            'barangs' => $barangs,
+        ]);
+
+        // $barangs = Barang::all();
+        // return view('dashboard.barang.index',
+        // [
+        //     'title' => 'Data Barang',
+        //     'kategoris' => Kategori::all(),
+        //     'barangs' => Barang::with('kategori')->where('id_kategori')->get(),
+        //     'spesifikasibarangs' => SpesifikasiBarang::with('barang')->where('id_barang')->get(),
+        // ])->with(compact('barangs'));
+        // ;
     }
 
     /**

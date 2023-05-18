@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="main-title mt-2 fw-semibold fs-3">Laporan Peminjaman</h2>
+        <h2 class="main-title mt-2 fw-semibold fs-3">Laporan Barang</h2>
         <div class="row mt-3">
             <div class="col-lg-3">
                 <label for="floatingInput">Tanggal awal</label>
@@ -15,7 +15,7 @@
             <div class="col">
                 <div class="card mt-2">
                     <div class="card-body">
-                        {{-- Tabel Data Peminjaman --}}
+                        {{-- Tabel Data Barang --}}
                         <table id="Table" class="table responsive nowrap table-bordered table-striped align-middle"
                             style="width:100%">
                             <ul class="nav nav-tabs mb-5">
@@ -61,7 +61,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- / Tabel Data Peminjaman --}}
+                        {{-- / Tabel Data Barang --}}
                     </div>
                 </div>
             </div>

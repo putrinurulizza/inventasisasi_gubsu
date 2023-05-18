@@ -36,7 +36,7 @@ class UserController extends Controller
         try {
             $validatedData = $request->validate([
                 'nama' => 'required|max:255',
-                'username' => ['required', 'min:6', 'max:16', 'unique:users'],
+                'username' => ['required', 'min:5', 'max:16', 'unique:users'],
                 'password' => 'required|min:5|max:255',
                 'is_admin' => 'required',
             ]);
@@ -72,17 +72,21 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $rules = [
-            'nama' => 'required|max:255',
-            'username' => 'required|min:5|max:255|unique:users,username,' . $user->id,
-            'is_admin' => 'required',
-        ];
+        try {
+            $rules = [
+                'nama' => 'required|max:255',
+                'username' => 'required|min:5|max:16|unique:users,username,' . $user->id,
+                'is_admin' => 'required',
+            ];
 
-        $validatedData = $request->validate($rules);
+            $validatedData = $this->validate($request, $rules);
 
-        User::where('id', $user->id)->update($validatedData);
+            User::where('id', $user->id)->update($validatedData);
 
-        return redirect()->route('user.index')->with('success', "Data User $user->nama berhasil diperbarui!");
+            return redirect()->route('user.index')->with('success', "Data User $user->nama berhasil diperbarui!");
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return redirect()->route('user.index')->with('failed', 'Data gagal diperbarui! ' . $exception->getMessage());
+        }
     }
 
     /**

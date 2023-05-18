@@ -32,6 +32,14 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'kategori' => 'required|unique:kategoris'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return redirect()->route('kategori.index')->with('failed', $exception->getMessage());
+        }
+
         $validatedData = $request->validate([
             'kategori' => 'required|unique:kategoris'
         ]);
@@ -62,16 +70,19 @@ class KategoriController extends Controller
      */
     public function update(Request $request, Kategori $kategori)
     {
-        $rules =[
-            'kategori' => 'required|unique:kategoris,kategori,' . $kategori->id,
-        ];
+        try {
+            $rules =[
+                'kategori' => 'required|unique:kategoris,kategori,' . $kategori->id,
+            ];
 
-        $validatedData = $request->validate($rules);
+            $validatedData = $request->validate($rules);
 
-        Kategori::where('id', $kategori->id)->update($validatedData);
+            Kategori::where('id', $kategori->id)->update($validatedData);
 
-        return redirect()->route('kategori.index')->with('success', "Data kategori $kategori->kategori berhasil diperbarui!");
-
+            return redirect()->route('kategori.index')->with('success', "Data kategori $kategori->kategori berhasil diperbarui!");
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return redirect()->route('kategori.index')->with('failed', 'Data gagal diperbarui! ' . $exception->getMessage());
+        }
     }
 
     /**

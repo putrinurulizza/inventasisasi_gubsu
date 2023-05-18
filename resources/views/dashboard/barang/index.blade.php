@@ -35,7 +35,7 @@
                                     <th>NO</th>
                                     <th>KODE BARANG</th>
                                     <th>KATEGORI</th>
-                                    <th>BARANG</th>
+                                    <th>NAMA BARANG</th>
                                     <th>SERIAL NUMBER</th>
                                     <th>LOKASI</th>
                                     <th>TAHUN PENGADAAN</th>
@@ -50,7 +50,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $barang->kode_barang }}</td>
                                         <td>{{ $barang->kategori->kategori}}</td>
-                                        <td>{{ $barang->deskripsi_barang}}</td>
+                                        <td>{{ $barang->deskripsi_barang }} </td>
                                         <td>{{ $barang->serial_number}}</td>
                                         <td>{{ $barang->lokasi_user }}</td>
                                         <td>{{ $barang->tahun_pengadaan}}</td>
@@ -238,6 +238,19 @@
             @enderror
         </div>
 
+        {{-- <div class="mb-3">
+            <label for="spesifikasi_barang" class="form-label">Spesifikasi Barang</label>
+            <div class="input-group" id="dynamicInput">
+                <input type="text" class="form-control @error('spesifikasi_barang.*') is-invalid @enderror" name="spesifikasi_barang" id="spesifikasi_barang" autofocus>
+                <button class="btn btn-primary add-btn" type="button">Tambah</button>
+            </div>
+            @error('spesifikasi_barang.*')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div> --}}
+
         <div class="mb-3">
             <label for="serial_number" class="form-label">Serial Number</label>
             <input type="text" class="form-control @error('serial_number') is-invalid @enderror" name="serial_number" id="serial_number" autofocus required>
@@ -291,3 +304,23 @@
   </x-form_modal>
   <!-- Akhir Modal Tambah Barang -->
 @endsection
+
+{{-- @section('scripts')
+<script>
+    $(document).ready(function() {
+        $('.add-btn').click(function() {
+            var inputGroup = `
+                <div class="input-group mt-3">
+                    <input type="text" name="data[]" class="form-control @error('spesifikasi_barang') is-invalid @enderror" id="spesifikasi_barang" autofocus>
+                    <button class="btn btn-danger remove-btn" type="button">Hapus</button>
+                </div>
+            `;
+            $('#dynamicInput').append(inputGroup);
+        });
+
+        $(document).on('click', '.remove-btn', function() {
+            $(this).closest('.input-group').remove();
+        });
+    });
+</script>
+@endsection --}}

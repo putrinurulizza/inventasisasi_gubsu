@@ -15,4 +15,9 @@ class Peminjaman extends Model
     {
         return $this->belongsTo(Barang::class, 'id_barang');
     }
+
+    public function DetailPeminjaman()
+    {
+        return $this->hasMany(DetailPeminjaman::class);
+    }
 }
