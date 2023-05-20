@@ -47,16 +47,20 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'kode_barang' => 'required|max:255|unique:barangs',
-            'id_kategori' => 'required',
-            'deskripsi_barang' => 'required|max:255',
-            'serial_number' => 'required|unique:barangs',
-            'lokasi_user' => 'required',
-            'tahun_pengadaan' => 'nullable',
-            'keterangan' => 'nullable',
-            'kondisi_barang' => 'required'
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'kode_barang' => 'required|max:255|unique:barangs',
+                'id_kategori' => 'required',
+                'deskripsi_barang' => 'required|max:255',
+                'serial_number' => 'required|unique:barangs',
+                'lokasi_user' => 'required',
+                'tahun_pengadaan' => 'nullable',
+                'keterangan' => 'nullable',
+                'kondisi_barang' => 'required'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return redirect()->route('barang.index')->with('failed', $exception->getMessage());
+        }
 
         Barang::create($validatedData);
 
@@ -84,23 +88,27 @@ class BarangController extends Controller
      */
     public function update(Request $request, Barang $barang)
     {
-        $rules = [
-            'kode_barang' => 'required|max:255|unique:barangs,kode_barang,' . $barang->id,
-            'id_kategori' => 'required',
-            'deskripsi_barang' => 'required|max:255',
-            'serial_number' => 'required|unique:barangs,serial_number,' . $barang->id,
-            'lokasi_user' => 'required',
-            'tahun_pengadaan' => 'nullable',
-            'keterangan' => 'nullable',
-            'kondisi_barang' => 'required'
-        ];
+        try {
+            $rules = [
+                'kode_barang' => 'required|max:255|unique:barangs,kode_barang,' . $barang->id,
+                'id_kategori' => 'required',
+                'deskripsi_barang' => 'required|max:255',
+                'serial_number' => 'required|unique:barangs,serial_number,' . $barang->id,
+                'lokasi_user' => 'required',
+                'tahun_pengadaan' => 'nullable',
+                'keterangan' => 'nullable',
+                'kondisi_barang' => 'required'
+            ];
 
-        $validatedData = $request->validate($rules);
+            $validatedData = $request->validate($rules);
 
-        $barang->update($validatedData);
-        // Barang::where('id', $barang->id)->update($validatedData);
+            $barang->update($validatedData);
 
-        return redirect()->route('barang.index')->with('success', "Data barang $barang->deskripsi_barang berhasil diperbarui!");
+            return redirect()->route('barang.index')->with('success', "Data barang $barang->deskripsi_barang berhasil diperbarui!");
+
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return redirect()->route('barang.index')->with('failed', 'Data gagal diperbarui! ' . $exception->getMessage());
+        }
     }
 
     /**

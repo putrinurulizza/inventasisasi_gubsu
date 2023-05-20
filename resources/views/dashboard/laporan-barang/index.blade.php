@@ -5,31 +5,32 @@
         <h2 class="main-title mt-2 fw-semibold fs-3">Laporan Barang</h2>
         <div class="row mt-3">
             <div class="col-lg-3">
-                <label for="floatingInput">Tanggal awal</label>
+                <label for="floatingInput">Tanggal Awal</label>
                 <input type="text" id="min" name="min" class="form-control" placeholder="">
             </div>
             <div class="col-lg-3">
-                <label for="floatingInput">Tanggal akhir</label>
+                <label for="floatingInput">Tanggal Akhir</label>
                 <input type="text" id="max" name="max" class="form-control" placeholder="">
             </div>
+
             <div class="col">
                 <div class="card mt-2">
                     <div class="card-body">
-                        {{-- Tabel Data Barang --}}
+                        {{-- Tabel Laporan Barang --}}
                         <table id="Table" class="table responsive nowrap table-bordered table-striped align-middle"
                             style="width:100%">
                             <ul class="nav nav-tabs mb-5">
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">RealTime</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-utama') ? 'active' : '' }}" aria-current="page" href="{{ route('laporan-barang-utama.index') }}">RealTime</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Mingguan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-mingguan') ? 'active' : '' }}" href="{{ route('laporan-barang-mingguan.index') }}">Mingguan</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Bulanan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-bulanan') ? 'active' : '' }}" href="{{ route('laporan-barang-bulanan.index') }}">Bulanan</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link">Tahunan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-tahunan') ? 'active' : '' }}" href="{{ route('laporan-barang-tahunan.index') }}">Tahunan</a>
                                 </li>
                             </ul>
                             <thead>
@@ -37,31 +38,33 @@
                                     <th>NO</th>
                                     <th>KODE BARANG</th>
                                     <th>KATEGORI</th>
-                                    <th>BARANG</th>
+                                    <th>NAMA BARANG</th>
                                     <th>SERIAL NUMBER</th>
                                     <th>LOKASI</th>
                                     <th>TAHUN PENGADAAN</th>
                                     <th>KONDISI</th>
                                     <th>KET</th>
+                                    <th hidden></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($barangs as $barang)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $barang->kode_barang }}</td>
-                                        <td>{{ $barang->kategori->kategori }}</td>
-                                        <td>{{ $barang->deskripsi_barang }}</td>
-                                        <td>{{ $barang->serial_number }}</td>
-                                        <td>{{ $barang->lokasi_user }}</td>
-                                        <td>{{ $barang->tahun_pengadaan }}</td>
-                                        <td>{{ $barang->kondisi_barang }}</td>
-                                        <td>{{ $barang->keterangan }}</td>
-                                    </tr>
+                                @foreach ($laporans as $laporan)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $laporan->kode_barang }}</td>
+                                    <td>{{ $laporan->kategori->kategori}}</td>
+                                    <td>{{ $laporan->deskripsi_barang }} </td>
+                                    <td>{{ $laporan->serial_number}}</td>
+                                    <td>{{ $laporan->lokasi_user }}</td>
+                                    <td>{{ $laporan->tahun_pengadaan}}</td>
+                                    <td>{{ $laporan->kondisi_barang}}</td>
+                                    <td>{{ $laporan->keterangan }}</td>
+                                    <td hidden>{{ $laporan->created_at }}</td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- / Tabel Data Barang --}}
+                        {{-- / Tabel Laporan Barang --}}
                     </div>
                 </div>
             </div>
@@ -78,7 +81,6 @@
                 var min = minDate.val();
                 var max = maxDate.val();
                 var date = new Date(data[1]);
-
                 if (
                     (min === null && max === null) ||
                     (min === null && date <= max) ||
@@ -124,5 +126,7 @@
                 "marginBottom": "10px"
             });
         });
+
     </script>
+
 @endsection

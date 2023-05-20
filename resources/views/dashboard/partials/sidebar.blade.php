@@ -39,7 +39,7 @@
         <div id="navLaporan" class="collapse {{ Request::is('dashboard/laporan*') ? 'show' : '' }}" data-bs-parent="#sideNavbar">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang') ? 'active' : '' }}" href="{{ route('laporan-barang.index') }}">
+              <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/*') ? 'active' : '' }}" href="{{ route('laporan-barang-utama.index') }}">
                 Laporan Barang
               </a>
             </li>

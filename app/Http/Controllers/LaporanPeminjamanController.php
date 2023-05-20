@@ -16,7 +16,7 @@ class LaporanPeminjamanController extends Controller
      */
     public function index(DetailPeminjaman $peminjaman)
     {
-        $laporans = Peminjaman::with('detailsPeminjamans')->get();
+        $laporans = Peminjaman::with('detailsPeminjamans')->latest()->get();
 
         return view('dashboard.laporan-peminjaman.index',
         [

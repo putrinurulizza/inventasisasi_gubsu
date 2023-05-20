@@ -8,6 +8,9 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\LaporanBarangController;
+use App\Http\Controllers\LaporanBulananBarangController;
+use App\Http\Controllers\LaporanTahunanBarangController;
+use App\Http\Controllers\LaporanMingguanBarangController;
 use App\Http\Controllers\LaporanPeminjamanController;
 use App\Http\Controllers\LaporanBulananPeminjamanController;
 use App\Http\Controllers\LaporanTahunanPeminjamanController;
@@ -42,7 +45,12 @@ Route::prefix('/dashboard')->group(function (){
     Route::resource('/user', UserController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
     Route::prefix('/laporan')->group(function () {
-        Route::resource('/laporan-barang', LaporanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+        Route::prefix('/laporan-barang', )->group(function () {
+            Route::resource('/laporan-barang-utama', LaporanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+            Route::resource('/laporan-barang-mingguan', LaporanMingguanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+            Route::resource('/laporan-barang-bulanan', LaporanBulananBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+            Route::resource('/laporan-barang-tahunan', LaporanTahunanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+        });
 
         Route::prefix('/laporan-peminjaman', )->group(function () {
             Route::resource('/laporan-peminjaman-utama', LaporanPeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');

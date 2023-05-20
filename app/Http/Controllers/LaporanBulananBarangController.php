@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Peminjaman;
+use App\Models\Barang;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
-class LaporanBulananPeminjamanController extends Controller
+class LaporanBulananBarangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,18 +17,20 @@ class LaporanBulananPeminjamanController extends Controller
     public function index()
     {
         // Mendapatkan tanggal awal dan akhir bulan saat ini
-        $currentStartMonth = Carbon::now()->subMonth()->startOfMonth();
-        $currentEndMonth = Carbon::now()->subMonth()->endOfMonth();
+        $currentStartMonth = Carbon::now()->startOfMonth();
+        $currentEndMonth = Carbon::now()->endOfMonth();
 
-        $laporans = Peminjaman::with('detailsPeminjamans')->whereBetween('created_at', [$currentStartMonth, $currentEndMonth])->get();
+        $laporans = Barang::with('kategori')->whereBetween('created_at', [$currentStartMonth, $currentEndMonth])->get();
 
         return view(
-            'dashboard.laporan-peminjaman.bulanan',
+            'dashboard.laporan-barang.bulanan',
             [
-                'title' => 'Laporan Peminjaman Bulanan',
+                'title' => 'Laporan Barang Bulanan',
+                'laporans' => $laporans
             ]
-        )->with(compact('laporans'));
+        );
     }
+
 
     /**
      * Show the form for creating a new resource.
