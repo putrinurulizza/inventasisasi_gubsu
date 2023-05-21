@@ -15,22 +15,22 @@ class PeminjamanController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index()
-    {
-        $barangs = Barang::all();
-        $detail = DetailPeminjaman::with('barang')->get();
-        if($detail->status == 0){
-            $barangs = Barang::all()
-        }
+     public function index()
+     {
+        $barangs = Barang::where(function ($query) {
+            $query->doesntHave('DetailPeminjaman')
+                ->orWhereHas('DetailPeminjaman', function ($query) {
+                    $query->where('status', '!=', '1');
+                });
+        })->get();
 
         $peminjamans = Peminjaman::with('detailsPeminjamans.barang')->latest()->get();
 
-        return view('dashboard.peminjaman.index', [
-            'title' => 'Data Peminjaman',
-            'peminjamans' => $peminjamans,
-            'barangs' => $barangs
-        ]);
-    }
+         return view('dashboard.peminjaman.index', [
+             'title' => 'Data Peminjaman',
+             'peminjamans' => $peminjamans,
+         ]);
+     }
 
     /**
      * Show the form for creating a new resource.
@@ -67,7 +67,6 @@ class PeminjamanController extends Controller
                 'id_barang' => 'required',
             ]);
 
-            $validatedDePeminjaman['status'] = 1;
             $validatedDePeminjaman['id_peminjaman'] = $idPeminjamanTerbaru;
 
             DetailPeminjaman::create($validatedDePeminjaman);
@@ -104,7 +103,6 @@ class PeminjamanController extends Controller
             $validatedPeminjaman = $request->validate([
                 'tgl_pinjam' => 'nullable',
                 'tgl_kembali' => 'nullable',
-                'status' => 'required',
             ]);
             $validatedPeminjaman['tgl_kembali'] = date('Y-m-d:H-m-s');
 
@@ -113,7 +111,9 @@ class PeminjamanController extends Controller
             $peminjamanTerbaru = Peminjaman::latest()->first();
             $idPeminjamanTerbaru = $peminjamanTerbaru->id;
 
-            $validatedDePeminjaman = $request->validate([]);
+            $validatedDePeminjaman = $request->validate([
+                'status' => 'required'
+            ]);
 
             $validatedDePeminjaman['id_peminjaman'] = $idPeminjamanTerbaru;
 

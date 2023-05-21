@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\DetailPeminjaman;
 use App\Models\Kategori;
 use App\Models\Barang;
 use Illuminate\Http\Request;
@@ -14,14 +14,15 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barangs = Barang::with('kategori')->latest()->get();
+        $barangs = Barang::with('DetailPeminjaman')->latest()->get();
+
         $kategoris = Kategori::all();
 
         return view('dashboard.barang.index', [
             'title' => 'Data Barang',
             'kategoris' => $kategoris,
-            'barangs' => $barangs,
-        ]);
+            'barangs' => Barang::all(),
+        ])->with(compact('barangs'));
 
         // $barangs = Barang::all();
         // return view('dashboard.barang.index',

@@ -36,9 +36,9 @@
                             <label for="barang" class="form-label">Barang</label>
                             <select class="form-select" id="id_barang" name="id_barang">
                                 @foreach ($barangs as $barang)
-                                    <option value="{{ $barang->id }}">
-                                        {{ $barang->deskripsi_barang }} - {{ $barang->kode_barang }}
-                                    </option>
+                                        <option value="{{ $barang->id }}">
+                                            {{ $barang->deskripsi_barang }} - {{ $barang->kode_barang }}
+                                        </option>
                                 @endforeach
                             </select>
                         </div>
@@ -155,7 +155,7 @@
                                                                 </div>
                                                                 <input type="text"
                                                                     class="form-control @error('status') is-invalid @enderror"
-                                                                    name="status" id="status" value="selesai" hidden>
+                                                                    name="status" id="status" value=0 hidden>
                                                                 <div class="mb-3">
                                                                     <label for="bidang"
                                                                         class="form-label">Bidang</label>
