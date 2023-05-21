@@ -24,7 +24,7 @@ class PeminjamanController extends Controller
                 });
         })->get();
 
-        $peminjamans = Peminjaman::with('detailsPeminjamans.barang')->latest()->get();
+        $peminjamans = Peminjaman::with('detailsPeminjamans.barang.kategori')->latest()->get();
 
          return view('dashboard.peminjaman.index', [
              'title' => 'Data Peminjaman',
@@ -66,6 +66,7 @@ class PeminjamanController extends Controller
 
             $validatedDePeminjaman = $request->validate([
                 'id_barang' => 'required',
+                'hbs_pakai' => 'required',
             ]);
 
             $validatedDePeminjaman['status'] = 1;

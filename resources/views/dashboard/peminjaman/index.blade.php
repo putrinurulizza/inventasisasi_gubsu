@@ -72,6 +72,17 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="keterangan" class="form-label">Habis Pakai</label>
+                            <select class="form-select" id="hbs_pakai" name="hbs_pakai">
+                                <option value="0">
+                                    Tidak habis Pakai
+                                </option>
+                                <option value="1">
+                                    Habis pakai
+                                </option>
+                            </select>
+                        </div>
                     </div>
 
                 </x-form_modal>
@@ -94,7 +105,7 @@
                             <tbody>
                                 @foreach ($peminjamans as $peminjaman)
                                     @foreach ($peminjaman->detailsPeminjamans as $detail)
-                                        @if ($detail->status == 1)
+                                        @if ($detail->status == 1 && $detail->hbs_pakai == 0)
                                             <tr>
                                                 <td>{{ $loop->parent->iteration }}</td>
                                                 <td>{{ $detail->barang->deskripsi_barang }} -

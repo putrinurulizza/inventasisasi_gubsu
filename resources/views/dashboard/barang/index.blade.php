@@ -53,7 +53,7 @@
                                         <td>
                                             {{-- @if ($barang->detailpeminjamans && $barang->detailpeminjamans->isNotEmpty()) --}}
 
-                                                @if ($barang->DetailPeminjaman->status == 1)
+                                                @if ($barang->detailpeminjamans == 0)
                                                     <span class="badge badge-success bg-success">Tersedia</span>
                                                 @else
                                                     <span class="badge badge-danger bg-danger">Dipinjam</span>
