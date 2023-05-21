@@ -1,8 +1,8 @@
 @extends('dashboard.layouts.main')
 
 @section('content')
-  <div class="container">
-    <h2 class="main-title mt-2 fw-semibold fs-3">Tabel Data Barang</h2>
+    <div class="container">
+        <h2 class="main-title mt-2 fw-semibold fs-3">Tabel Data Barang</h2>
 
         <div class="row">
             <div class="col-sm-6 col-md">
@@ -20,8 +20,9 @@
             </div>
         </div>
 
-        <button class="btn btn-primary fs-5 fw-normal mt-a-solid fa-square-plus fs-5 me-22" data-bs-toggle="modal" data-bs-target="#tambahBarang"><i
-                class="f"></i>Tambah</button>
+
+        <button class="btn btn-primary fs-5 fw-normal mt-2" data-bs-toggle="modal" data-bs-target="#tambahBarang"><i
+            class="fa-solid fa-square-plus fs-5 me-2"></i>Tambah</button>
         <div class="row mt-3">
             <div class="col">
                 <div class="card mt-2">
@@ -33,6 +34,7 @@
                             <thead>
                                 <tr>
                                     <th>NO</th>
+                                    <th>STATUS</th>
                                     <th>KODE BARANG</th>
                                     <th>KATEGORI</th>
                                     <th>NAMA/DESKRIPSI BARANG</th>
@@ -48,13 +50,28 @@
                                 @foreach ($barangs as $barang)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if ($barang->detailpeminjamans && $barang->detailpeminjamans->isNotEmpty())
+                                                @php
+                                                    $latestPeminjaman = $barang->detailpeminjamans->last()->peminjaman;
+                                                @endphp
+
+                                                @if ($latestPeminjaman->tgl_kembali)
+                                                    <span class="badge badge-success bg-success">Tersedia</span>
+                                                @else
+                                                    <span class="badge badge-danger bg-danger">Dipinjam</span>
+                                                @endif
+                                            @else
+                                                <span class="badge badge-success bg-success">Tersedia</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $barang->kode_barang }}</td>
-                                        <td>{{ $barang->kategori->kategori}}</td>
+                                        <td>{{ $barang->kategori->kategori }}</td>
                                         <td>{{ $barang->deskripsi_barang }} </td>
-                                        <td>{{ $barang->serial_number}}</td>
+                                        <td>{{ $barang->serial_number }}</td>
                                         <td>{{ $barang->lokasi_user }}</td>
-                                        <td>{{ $barang->tahun_pengadaan}}</td>
-                                        <td>{{ $barang->kondisi_barang}}</td>
+                                        <td>{{ $barang->tahun_pengadaan }}</td>
+                                        <td>{{ $barang->kondisi_barang }}</td>
                                         <td>{{ $barang->keterangan }}</td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
@@ -79,10 +96,14 @@
                                         <div class="row">
                                             <div class="mb-3">
                                                 <label for="kode_barang" class="form-label">Kode Barang</label>
-                                                <input type="text" class="form-control @error('kode_barang') is-invalid @enderror" name="kode_barang" id="kode_barang" value="{{ old('kode_barang', $barang->kode_barang) }}" autofocus required>
+                                                <input type="text"
+                                                    class="form-control @error('kode_barang') is-invalid @enderror"
+                                                    name="kode_barang" id="kode_barang"
+                                                    value="{{ old('kode_barang', $barang->kode_barang) }}" autofocus
+                                                    required>
                                                 @error('kode_barang')
                                                     <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                        {{ $message }}
                                                     </div>
                                                 @enderror
                                             </div>
@@ -91,12 +112,13 @@
                                                 <label for="id_kategori" class="form-label">Kategori Barang</label>
                                                 <select class="form-select" id="id_kategori" name="id_kategori">
                                                     @foreach ($kategoris as $kategori)
-                                                    @if (old('id_kategori', $barang->id_kategori) == $kategori->id)
+                                                        @if (old('id_kategori', $barang->id_kategori) == $kategori->id)
                                                             <option value="{{ $kategori->id }}" selected>
                                                                 {{ "$kategori->kategori" }}
                                                             </option>
                                                         @else
-                                                            <option value="{{ $kategori->id }}">{{ "$kategori->kategori" }}
+                                                            <option value="{{ $kategori->id }}">
+                                                                {{ "$kategori->kategori" }}
                                                             </option>
                                                         @endif
                                                     @endforeach
@@ -104,61 +126,85 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="deskripsi_barang" class="form-label">Nama/Deskripsi Barang</label>
-                                                <input type="text" class="form-control @error('deskripsi_barang') is-invalid @enderror" name="deskripsi_barang" id="deskripsi_barang" value="{{ old('deskripsi_barang', $barang->deskripsi_barang) }}" autofocus required>
+                                                <label for="deskripsi_barang" class="form-label">Nama/Deskripsi
+                                                    Barang</label>
+                                                <input type="text"
+                                                    class="form-control @error('deskripsi_barang') is-invalid @enderror"
+                                                    name="deskripsi_barang" id="deskripsi_barang"
+                                                    value="{{ old('deskripsi_barang', $barang->deskripsi_barang) }}"
+                                                    autofocus required>
                                                 @error('deskripsi_barang')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
                                                 @enderror
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="serial_number" class="form-label">Serial Number</label>
-                                                <input type="text" class="form-control @error('serial_number') is-invalid @enderror" name="serial_number" id="serial_number" value="{{ old('serial_number', $barang->serial_number) }}" autofocus required>
+                                                <input type="text"
+                                                    class="form-control @error('serial_number') is-invalid @enderror"
+                                                    name="serial_number" id="serial_number"
+                                                    value="{{ old('serial_number', $barang->serial_number) }}" autofocus
+                                                    required>
                                                 @error('serial_number')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
                                                 @enderror
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="lokasi_user" class="form-label">Lokasi</label>
-                                                <input type="text" class="form-control @error('lokasi_user') is-invalid @enderror" name="lokasi_user" id="lokasi_user" value="{{ old('lokasi_user', $barang->lokasi_user) }}" autofocus required>
+                                                <input type="text"
+                                                    class="form-control @error('lokasi_user') is-invalid @enderror"
+                                                    name="lokasi_user" id="lokasi_user"
+                                                    value="{{ old('lokasi_user', $barang->lokasi_user) }}" autofocus
+                                                    required>
                                                 @error('lokasi_user')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
                                                 @enderror
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="tahun_pengadaan" class="form-label">Tahun Pengadaan</label>
-                                                <input type="year" class="form-control @error('tahun_pengadaan') is-invalid @enderror" name="tahun_pengadaan" id="tahun_pengadaan" value="{{ old('tahun_pengadaan', $barang->tahun_pengadaan) }}" autofocus>
+                                                <input type="year"
+                                                    class="form-control @error('tahun_pengadaan') is-invalid @enderror"
+                                                    name="tahun_pengadaan" id="tahun_pengadaan"
+                                                    value="{{ old('tahun_pengadaan', $barang->tahun_pengadaan) }}"
+                                                    autofocus>
                                                 @error('tahun_pengadaan')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
                                                 @enderror
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="keterangan" class="form-label">Keterangan</label>
-                                                <input type="text" class="form-control @error('keterangan') is-invalid @enderror" name="keterangan" id="keterangan" value="{{ old('keterangan', $barang->keterangan) }}" autofocus>
+                                                <input type="text"
+                                                    class="form-control @error('keterangan') is-invalid @enderror"
+                                                    name="keterangan" id="keterangan"
+                                                    value="{{ old('keterangan', $barang->keterangan) }}" autofocus>
                                                 @error('keterangan')
                                                     <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                        {{ $message }}
                                                     </div>
                                                 @enderror
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="kondisi_barang" class="form-label">Kondisi</label>
-                                                <input type="text" class="form-control @error('kondisi_barang') is-invalid @enderror" name="kondisi_barang" id="kondisi_barang" value="{{ old('kondisi_barang', $barang->kondisi_barang) }}" autofocus required>
+                                                <input type="text"
+                                                    class="form-control @error('kondisi_barang') is-invalid @enderror"
+                                                    name="kondisi_barang" id="kondisi_barang"
+                                                    value="{{ old('kondisi_barang', $barang->kondisi_barang) }}" autofocus
+                                                    required>
                                                 @error('kondisi_barang')
                                                     <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                        {{ $message }}
                                                     </div>
                                                 @enderror
                                             </div>
@@ -184,8 +230,6 @@
 
                                     </x-form_modal>
                                     {{-- / Modal Hapus Barang  --}}
-
-
                                 @endforeach
                             </tbody>
                         </table>
@@ -196,100 +240,107 @@
         </div>
     </div>
 
-  <!-- Modal Tambah Barang -->
-  <x-form_modal>
-    @slot('id', "tambahBarang")
-    @slot('title', 'Tambah Data Barang')
-    @slot('overflow', 'overflow-auto')
-    @slot('route', route('barang.store'))
+    <!-- Modal Tambah Barang -->
+    <x-form_modal>
+        @slot('id', 'tambahBarang')
+        @slot('title', 'Tambah Data Barang')
+        @slot('overflow', 'overflow-auto')
+        @slot('route', route('barang.store'))
 
-    <div class="row">
-      <div class="mb-3">
-        <label for="kode_barang" class="form-label">Kode Barang</label>
-        <input type="text" class="form-control @error('kode_barang') is-invalid @enderror" name="kode_barang" id="kode_barang" autofocus required>
-        @error('kode_barang')
-          <div class="invalid-feedback">
-            {{ $message }}
-          </div>
-        @enderror
-      </div>
+        <div class="row">
+            <div class="mb-3">
+                <label for="kode_barang" class="form-label">Kode Barang</label>
+                <input type="text" class="form-control @error('kode_barang') is-invalid @enderror" name="kode_barang"
+                    id="kode_barang" autofocus required>
+                @error('kode_barang')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
 
-      <div class="mb-3">
-        <label for="id_kategori" class="form-label">Kategori Barang</label>
-        <select class="form-select" id="id_kategori" name="id_kategori">
-            @foreach ($kategoris as $kategori)
-                @if (old('id_kategori') == $kategori->id)
-                    <option value="{{ $kategori->id }}" selected>
-                        {{ "$kategori->kategori" }}
-                    </option>
-                @else
-                    <option value="{{ $kategori->id }}">{{ "$kategori->kategori" }}
-                    </option>
-                @endif
-            @endforeach
-        </select>
+            <div class="mb-3">
+                <label for="id_kategori" class="form-label">Kategori Barang</label>
+                <select class="form-select" id="id_kategori" name="id_kategori">
+                    @foreach ($kategoris as $kategori)
+                        @if (old('id_kategori') == $kategori->id)
+                            <option value="{{ $kategori->id }}" selected>
+                                {{ "$kategori->kategori" }}
+                            </option>
+                        @else
+                            <option value="{{ $kategori->id }}">{{ "$kategori->kategori" }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="deskripsi_barang" class="form-label">Nama/Deskripsi Barang</label>
+                <input type="text" class="form-control @error('deskripsi_barang') is-invalid @enderror"
+                    name="deskripsi_barang" id="deskripsi_barang" autofocus required>
+                @error('deskripsi_barang')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="serial_number" class="form-label">Serial Number</label>
+                <input type="text" class="form-control @error('serial_number') is-invalid @enderror"
+                    name="serial_number" id="serial_number" autofocus required>
+                @error('serial_number')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="lokasi_user" class="form-label">Lokasi</label>
+                <input type="text" class="form-control @error('lokasi_user') is-invalid @enderror" name="lokasi_user"
+                    id="lokasi_user" autofocus required>
+                @error('lokasi_user')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="tahun_pengadaan" class="form-label">Tahun Pengadaan</label>
+                <input type="year" class="form-control @error('tahun_pengadaan') is-invalid @enderror"
+                    name="tahun_pengadaan" id="tahun_pengadaan" autofocus>
+                @error('tahun_pengadaan')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="keterangan" class="form-label">Keterangan</label>
+                <input type="text" class="form-control @error('keterangan') is-invalid @enderror" name="keterangan"
+                    id="keterangan" autofocus>
+                @error('keterangan')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="kondisi_barang" class="form-label">Kondisi</label>
+                <input type="text" class="form-control @error('kondisi_barang') is-invalid @enderror"
+                    name="kondisi_barang" id="kondisi_barang" autofocus required>
+                @error('kondisi_barang')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label for="deskripsi_barang" class="form-label">Nama/Deskripsi Barang</label>
-            <input type="text" class="form-control @error('deskripsi_barang') is-invalid @enderror" name="deskripsi_barang" id="deskripsi_barang" autofocus required>
-            @error('deskripsi_barang')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-            @enderror
-        </div>
-
-        <div class="mb-3">
-            <label for="serial_number" class="form-label">Serial Number</label>
-            <input type="text" class="form-control @error('serial_number') is-invalid @enderror" name="serial_number" id="serial_number" autofocus required>
-            @error('serial_number')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-            @enderror
-        </div>
-
-        <div class="mb-3">
-            <label for="lokasi_user" class="form-label">Lokasi</label>
-            <input type="text" class="form-control @error('lokasi_user') is-invalid @enderror" name="lokasi_user" id="lokasi_user" autofocus required>
-            @error('lokasi_user')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-            @enderror
-          </div>
-
-          <div class="mb-3">
-            <label for="tahun_pengadaan" class="form-label">Tahun Pengadaan</label>
-            <input type="year" class="form-control @error('tahun_pengadaan') is-invalid @enderror" name="tahun_pengadaan" id="tahun_pengadaan" autofocus>
-            @error('tahun_pengadaan')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-            @enderror
-          </div>
-
-          <div class="mb-3">
-            <label for="keterangan" class="form-label">Keterangan</label>
-            <input type="text" class="form-control @error('keterangan') is-invalid @enderror" name="keterangan" id="keterangan" autofocus>
-            @error('keterangan')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-            @enderror
-          </div>
-
-          <div class="mb-3">
-            <label for="kondisi_barang" class="form-label">Kondisi</label>
-            <input type="text" class="form-control @error('kondisi_barang') is-invalid @enderror" name="kondisi_barang" id="kondisi_barang" autofocus required>
-            @error('kondisi_barang')
-              <div class="invalid-feedback">
-                {{ $message }}
-              </div>
-            @enderror
-          </div>
-    </div>
-  </x-form_modal>
-  <!-- Akhir Modal Tambah Barang -->
+    </x-form_modal>
+    <!-- Akhir Modal Tambah Barang -->
 @endsection

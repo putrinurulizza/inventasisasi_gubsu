@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\DetailPeminjaman;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +30,6 @@ class Barang extends Model
 
     public function DetailPeminjaman()
     {
-        return $this->hasMany(DetailPeminjaman::class);
+        return $this->hasMany(DetailPeminjaman::class, 'id_barang');
     }
 }

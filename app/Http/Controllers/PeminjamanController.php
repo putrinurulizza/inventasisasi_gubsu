@@ -17,12 +17,19 @@ class PeminjamanController extends Controller
 
      public function index()
      {
+        $barangs = Barang::where(function ($query) {
+            $query->doesntHave('DetailPeminjaman')
+                ->orWhereHas('DetailPeminjaman', function ($query) {
+                    $query->where('status', '!=', '1');
+                });
+        })->get();
 
          $peminjamans = Peminjaman::with('detailsPeminjamans.barang')->latest()->get();
 
          return view('dashboard.peminjaman.index', [
              'title' => 'Data Peminjaman',
              'peminjamans' => $peminjamans,
+            'barangs' => $barangs
          ]);
      }
 
@@ -50,7 +57,7 @@ class PeminjamanController extends Controller
 
             $validatedPeminjaman['tgl_pinjam'] = date('Y-m-d:H-m-s');
             $validatedPeminjaman['tgl_kembali'] = null;
-            $validatedPeminjaman['status'] = 'pinjam';
+
 
             Peminjaman::create($validatedPeminjaman);
 
@@ -60,6 +67,8 @@ class PeminjamanController extends Controller
             $validatedDePeminjaman = $request->validate([
                 'id_barang' => 'required',
             ]);
+
+            $validatedDePeminjaman['status'] = 1;
 
             $validatedDePeminjaman['id_peminjaman'] = $idPeminjamanTerbaru;
 
@@ -97,7 +106,6 @@ class PeminjamanController extends Controller
             $validatedPeminjaman = $request->validate([
                 'tgl_pinjam' => 'nullable',
                 'tgl_kembali' => 'nullable',
-                'status' => 'required',
             ]);
             $validatedPeminjaman['tgl_kembali'] = date('Y-m-d:H-m-s');
 
@@ -106,7 +114,9 @@ class PeminjamanController extends Controller
             $peminjamanTerbaru = Peminjaman::latest()->first();
             $idPeminjamanTerbaru = $peminjamanTerbaru->id;
 
-            $validatedDePeminjaman = $request->validate([]);
+            $validatedDePeminjaman = $request->validate([
+                'status' => 'required'
+            ]);
 
             $validatedDePeminjaman['id_peminjaman'] = $idPeminjamanTerbaru;
 
