@@ -16,7 +16,7 @@
             <div class="col-lg-3">
                 <label for="floatingInput">Kategori</label>
                 <select class="form-select filter" id="filter">
-                    <option selected>Pilih Kategori</option>
+                    <option selected>Pilih Kategori</option disabled>
                     @foreach ($kategoris as $kategori)
                         <option value="{{ $kategori->kategori }}">{{ $kategori->kategori }}</option>
                     @endforeach

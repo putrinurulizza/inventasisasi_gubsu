@@ -23,19 +23,19 @@
         <div class="row mt-1">
             <div class="col">
                 <button class="btn btn-primary fs-5 fw-normal mt-2 mb-2" data-bs-toggle="modal"
-                    data-bs-target="#tambahRek"><i class="fa-solid fa-box-open me-2"></i></i>Pinjam</button>
+                    data-bs-target="#tambahPinjam"><i class="fa-solid fa-square-plus fs-5 me-2"></i></i>Pinjam</button>
 
-                <!-- Check -->
+                <!-- Tambah Peminjaman -->
                 <x-form_modal>
-                    @slot('id', 'tambahRek')
-                    @slot('title', 'Tambah Data Peminjaman')
+                    @slot('id', 'tambahPinjam')
+                    @slot('title', 'Tambah Peminjaman')
                     @slot('overflow', 'overflow-auto')
                     @slot('route', route('peminjaman.store'))
                     <div class="row">
                         <div class="mb-3">
                             <label for="barang" class="form-label">Barang</label>
                             <select class="form-select" id="id_barang" name="id_barang">
-                                @foreach ($barangs as $barang)
+                                @foreach ($availableBarangs as $barang)
                                     <option value="{{ $barang->id }}">
                                         {{ $barang->deskripsi_barang }} - {{ $barang->kode_barang }}
                                     </option>
@@ -43,7 +43,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="nama_peminjam" class="form-label">Peminjam</label>
+                            <label for="nama_peminjam" class="form-label">Nama Peminjam</label>
                             <input type="text" class="form-control @error('nama_peminjam') is-invalid @enderror"
                                 name="nama_peminjam" id="nama_peminjam" autofocus required>
                             @error('nama_peminjam')
@@ -86,7 +86,7 @@
                                     <th>NO</th>
                                     <th>Barang</th>
                                     <th>Peminjam</th>
-                                    <th>Tanggal Pinjam</th>
+                                    <th>Tanggal/Waktu Pinjam</th>
                                     <th hidden>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -175,7 +175,7 @@
                                                             <button type="button" class="btn btn-outline-secondary"
                                                                 data-bs-dismiss="modal">Batal</button>
                                                             <button type="submit"
-                                                                class="btn btn-primary">Selesai</button>
+                                                                class="btn btn-primary">Dikembalikan</button>
                                                         </div>
                                                     </form>
                                                 </div>

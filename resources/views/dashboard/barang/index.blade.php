@@ -20,8 +20,8 @@
             </div>
         </div>
 
-        <button class="btn btn-primary fs-5 fw-normal mt-2" data-bs-toggle="modal" data-bs-target="#tambahBarang"><i
-                class="fa-solid fa-square-plus fs-5 me-2"></i>Tambah</button>
+        <button class="btn btn-primary fs-5 fw-normal mt-a-solid fa-square-plus fs-5 me-22" data-bs-toggle="modal" data-bs-target="#tambahBarang"><i
+                class="f"></i>Tambah</button>
         <div class="row mt-3">
             <div class="col">
                 <div class="card mt-2">
@@ -35,7 +35,7 @@
                                     <th>NO</th>
                                     <th>KODE BARANG</th>
                                     <th>KATEGORI</th>
-                                    <th>NAMA BARANG</th>
+                                    <th>NAMA/DESKRIPSI BARANG</th>
                                     <th>SERIAL NUMBER</th>
                                     <th>LOKASI</th>
                                     <th>TAHUN PENGADAAN</th>
@@ -104,7 +104,7 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="deskripsi_barang" class="form-label">Nama Barang</label>
+                                                <label for="deskripsi_barang" class="form-label">Nama/Deskripsi Barang</label>
                                                 <input type="text" class="form-control @error('deskripsi_barang') is-invalid @enderror" name="deskripsi_barang" id="deskripsi_barang" value="{{ old('deskripsi_barang', $barang->deskripsi_barang) }}" autofocus required>
                                                 @error('deskripsi_barang')
                                                 <div class="invalid-feedback">
@@ -231,7 +231,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="deskripsi_barang" class="form-label">Nama Barang</label>
+            <label for="deskripsi_barang" class="form-label">Nama/Deskripsi Barang</label>
             <input type="text" class="form-control @error('deskripsi_barang') is-invalid @enderror" name="deskripsi_barang" id="deskripsi_barang" autofocus required>
             @error('deskripsi_barang')
               <div class="invalid-feedback">

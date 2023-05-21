@@ -6,25 +6,42 @@ use App\Models\Barang;
 use App\Models\DetailPeminjaman;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class PeminjamanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+     public function index()
     {
-        $barangs = Barang::all();
+        // Ambil semua barang yang tersedia atau sudah dikembalikan
+        $availableBarangs = Barang::whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('detailpeminjamans')
+                ->join('peminjamans', 'detailpeminjamans.id_peminjaman', '=', 'peminjamans.id')
+                ->whereRaw('detailpeminjamans.id_barang = barangs.id')
+                ->where('peminjamans.status', '=', 'pinjam');
+        })->orWhereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('detailpeminjamans')
+                ->join('peminjamans', 'detailpeminjamans.id_peminjaman', '=', 'peminjamans.id')
+                ->whereRaw('detailpeminjamans.id_barang = barangs.id')
+                ->where('peminjamans.status', '=', 'selesai');
+        })->get();
+
         $peminjamans = Peminjaman::with('detailsPeminjamans.barang')->latest()->get();
-        return view(
-            'dashboard.peminjaman.index',
-            [
-                'title' => 'Data Peminjaman',
-                'peminjamans' => $peminjamans,
-                'barangs' => $barangs,
-            ]
-        );
+
+        return view('dashboard.peminjaman.index', [
+            'title' => 'Data Peminjaman',
+            'peminjamans' => $peminjamans,
+            'availableBarangs' => $availableBarangs,
+        ]);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -116,7 +133,7 @@ class PeminjamanController extends Controller
             return redirect()->route('peminjaman.index')->with('failed', $exception->getMessage());
         }
 
-        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman baru berhasil diUbah!');
+        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman barang telah dikembalikan!');
     }
 
     /**

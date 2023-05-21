@@ -16,8 +16,8 @@ class LaporanBulananPeminjamanController extends Controller
     public function index()
     {
         // Mendapatkan tanggal awal dan akhir bulan saat ini
-        $currentStartMonth = Carbon::now()->subMonth()->startOfMonth();
-        $currentEndMonth = Carbon::now()->subMonth()->endOfMonth();
+        $currentStartMonth = Carbon::now()->startOfMonth();
+        $currentEndMonth = Carbon::now()->endOfMonth();
 
         $laporans = Peminjaman::with('detailsPeminjamans')->whereBetween('created_at', [$currentStartMonth, $currentEndMonth])->get();
 

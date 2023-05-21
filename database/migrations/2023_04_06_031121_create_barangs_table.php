@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode_barang')->unique();
             $table->foreignId('id_kategori')->constrained('kategoris')->onUpdate('cascade')->onDelete('restrict');
-            $table->string('deskripsi_barang');
+            $table->text('deskripsi_barang');
             $table->string('serial_number')->unique();
             $table->string('lokasi_user');
             $table->year('tahun_pengadaan')->nullable();

@@ -16,8 +16,8 @@ class LaporanMingguanPeminjamanController extends Controller
     public function index()
     {
         // Mendapatkan tanggal awal dan akhir minggu saat ini
-        $currentStartWeek = Carbon::now()->subWeek()->startOfWeek();
-        $currentEndWeek = Carbon::now()->subWeek()->endOfWeek();
+        $currentStartWeek = Carbon::now()->startOfWeek();
+        $currentEndWeek = Carbon::now()->endOfWeek();
 
         $laporans = Peminjaman::with('detailsPeminjamans')->whereBetween('created_at', [$currentStartWeek, $currentEndWeek])->get();
 
