@@ -35,12 +35,10 @@
                         <div class="mb-3">
                             <label for="barang" class="form-label">Barang</label>
                             <select class="form-select" id="id_barang" name="id_barang">
-                                @foreach ($peminjamans as $detail)
-                                    @foreach ($detail->detailsPeminjamans as $barang)
-                                        <option value="{{ $barang->barang->id }}">
-                                            {{ $barang->barang->deskripsi_barang }} - {{ $barang->barang->kode_barang }}
-                                        </option>
-                                    @endforeach
+                                @foreach ($barangs as $barang)
+                                    <option value="{{ $barang->id }}">
+                                        {{ $barang->deskripsi_barang }} - {{ $barang->kode_barang }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -96,13 +94,14 @@
                             <tbody>
                                 @foreach ($peminjamans as $peminjaman)
                                     @foreach ($peminjaman->detailsPeminjamans as $detail)
-                                        @if ($peminjaman->status === 'pinjam')
+                                        @if ($detail->status == 1)
                                             <tr>
                                                 <td>{{ $loop->parent->iteration }}</td>
-                                                <td>{{ $detail->barang->deskripsi_barang }}</td>
+                                                <td>{{ $detail->barang->deskripsi_barang }} -
+                                                    {{ $detail->barang->kode_barang }}</td>
                                                 <td>{{ $peminjaman->nama_peminjam }}</td>
                                                 <td>{{ $peminjaman->tgl_pinjam }}</td>
-                                                <td hidden>{{ $peminjaman->status }}</td>
+                                                <td hidden>{{ $detail->status }}</td>
                                                 <td><button class="btn btn-primary" data-bs-toggle="modal"
                                                         data-bs-target="#checkmodal{{ $loop->parent->iteration }}"><i
                                                             class="fa-solid fa-box-check"></i></button></td>

@@ -15,16 +15,22 @@ class PeminjamanController extends Controller
      * Display a listing of the resource.
      */
 
-     public function index()
-     {
+    public function index()
+    {
+        $barangs = Barang::all();
+        $detail = DetailPeminjaman::with('barang')->get();
+        if($detail->status == 0){
+            $barangs = Barang::all()
+        }
 
-         $peminjamans = Peminjaman::with('detailsPeminjamans.barang')->latest()->get();
+        $peminjamans = Peminjaman::with('detailsPeminjamans.barang')->latest()->get();
 
-         return view('dashboard.peminjaman.index', [
-             'title' => 'Data Peminjaman',
-             'peminjamans' => $peminjamans,
-         ]);
-     }
+        return view('dashboard.peminjaman.index', [
+            'title' => 'Data Peminjaman',
+            'peminjamans' => $peminjamans,
+            'barangs' => $barangs
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -50,7 +56,7 @@ class PeminjamanController extends Controller
 
             $validatedPeminjaman['tgl_pinjam'] = date('Y-m-d:H-m-s');
             $validatedPeminjaman['tgl_kembali'] = null;
-            $validatedPeminjaman['status'] = 'pinjam';
+
 
             Peminjaman::create($validatedPeminjaman);
 
@@ -61,6 +67,7 @@ class PeminjamanController extends Controller
                 'id_barang' => 'required',
             ]);
 
+            $validatedDePeminjaman['status'] = 1;
             $validatedDePeminjaman['id_peminjaman'] = $idPeminjamanTerbaru;
 
             DetailPeminjaman::create($validatedDePeminjaman);
