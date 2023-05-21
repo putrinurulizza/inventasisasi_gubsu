@@ -35,10 +35,12 @@
                         <div class="mb-3">
                             <label for="barang" class="form-label">Barang</label>
                             <select class="form-select" id="id_barang" name="id_barang">
-                                @foreach ($availableBarangs as $barang)
-                                    <option value="{{ $barang->id }}">
-                                        {{ $barang->deskripsi_barang }} - {{ $barang->kode_barang }}
-                                    </option>
+                                @foreach ($peminjamans as $detail)
+                                    @foreach ($detail->detailsPeminjamans as $barang)
+                                        <option value="{{ $barang->barang->id }}">
+                                            {{ $barang->barang->deskripsi_barang }} - {{ $barang->barang->kode_barang }}
+                                        </option>
+                                    @endforeach
                                 @endforeach
                             </select>
                         </div>

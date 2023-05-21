@@ -17,29 +17,12 @@ class PeminjamanController extends Controller
 
      public function index()
      {
-         $usedBarangIds = DetailPeminjaman::join('peminjamans', 'detailpeminjamans.id_peminjaman', '=', 'peminjamans.id')
-             ->whereIn('peminjamans.status', ['pinjam', 'selesai'])
-             ->pluck('detailpeminjamans.id_barang')
-             ->toArray();
-
-         $availableBarangs = Barang::whereNotIn('id', $usedBarangIds)->get();
-
-         // Untuk menampilkan barang yang sudah dikembalikan
-         $returnedBarangs = DetailPeminjaman::join('peminjamans', 'detailpeminjamans.id_peminjaman', '=', 'peminjamans.id')
-             ->where('peminjamans.status', 'selesai')
-             ->pluck('detailpeminjamans.id_barang')
-             ->toArray();
-
-         $returnedBarangsData = Barang::whereIn('id', $returnedBarangs)->get();
-
-         $availableBarangs = $availableBarangs->concat($returnedBarangsData);
 
          $peminjamans = Peminjaman::with('detailsPeminjamans.barang')->latest()->get();
 
          return view('dashboard.peminjaman.index', [
              'title' => 'Data Peminjaman',
              'peminjamans' => $peminjamans,
-             'availableBarangs' => $availableBarangs,
          ]);
      }
 
