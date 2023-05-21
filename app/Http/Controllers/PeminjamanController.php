@@ -116,7 +116,7 @@ class PeminjamanController extends Controller
             return redirect()->route('peminjaman.index')->with('failed', $exception->getMessage());
         }
 
-        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman baru berhasil diUbah!');
+        return redirect()->route('peminjaman.index')->with('success', 'Barang berhasil di simpan!');
     }
 
     /**
