@@ -29,6 +29,7 @@ class PeminjamanController extends Controller
          return view('dashboard.peminjaman.index', [
              'title' => 'Data Peminjaman',
              'peminjamans' => $peminjamans,
+             'barangs' => $barangs
          ]);
      }
 
@@ -67,6 +68,7 @@ class PeminjamanController extends Controller
                 'id_barang' => 'required',
             ]);
 
+            $validatedDePeminjaman['status'] = 1;
             $validatedDePeminjaman['id_peminjaman'] = $idPeminjamanTerbaru;
 
             DetailPeminjaman::create($validatedDePeminjaman);
@@ -100,6 +102,7 @@ class PeminjamanController extends Controller
     {
 
         try {
+
             $validatedPeminjaman = $request->validate([
                 'tgl_pinjam' => 'nullable',
                 'tgl_kembali' => 'nullable',
@@ -108,17 +111,12 @@ class PeminjamanController extends Controller
 
             $peminjaman->update($validatedPeminjaman);
 
-            $peminjamanTerbaru = Peminjaman::latest()->first();
-            $idPeminjamanTerbaru = $peminjamanTerbaru->id;
-
+            $peminjamans = Peminjaman::latest()->first();
             $validatedDePeminjaman = $request->validate([
                 'status' => 'required'
             ]);
+            $DePeminjaman->where('id_peminjaman', $peminjamans->id)->update($validatedDePeminjaman);
 
-            $validatedDePeminjaman['id_peminjaman'] = $idPeminjamanTerbaru;
-
-            $DePeminjaman = new DetailPeminjaman();
-            $DePeminjaman->update($validatedDePeminjaman);
         } catch (\Illuminate\Validation\ValidationException $exception) {
             return redirect()->route('peminjaman.index')->with('failed', $exception->getMessage());
         }

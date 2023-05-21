@@ -51,20 +51,18 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
-                                            @if ($barang->detailpeminjamans && $barang->detailpeminjamans->isNotEmpty())
-                                                @php
-                                                    $latestPeminjaman = $barang->detailpeminjamans->last()->peminjaman;
-                                                @endphp
+                                            {{-- @if ($barang->detailpeminjamans && $barang->detailpeminjamans->isNotEmpty()) --}}
 
-                                                @if ($latestPeminjaman->tgl_kembali)
+                                                @if ($barang->DetailPeminjaman->status == 1)
                                                     <span class="badge badge-success bg-success">Tersedia</span>
                                                 @else
                                                     <span class="badge badge-danger bg-danger">Dipinjam</span>
                                                 @endif
-                                            @else
+                                            {{-- @else
                                                 <span class="badge badge-success bg-success">Tersedia</span>
-                                            @endif
+                                            @endif --}}
                                         </td>
+
                                         <td>{{ $barang->kode_barang }}</td>
                                         <td>{{ $barang->kategori->kategori }}</td>
                                         <td>{{ $barang->deskripsi_barang }} </td>

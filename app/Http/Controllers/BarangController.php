@@ -21,7 +21,6 @@ class BarangController extends Controller
         return view('dashboard.barang.index', [
             'title' => 'Data Barang',
             'kategoris' => $kategoris,
-            'barangs' => Barang::all(),
         ])->with(compact('barangs'));
 
         // $barangs = Barang::all();
