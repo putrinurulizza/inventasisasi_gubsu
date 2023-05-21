@@ -17,10 +17,10 @@ class LaporanMingguanBarangController extends Controller
     public function index()
     {
         // Mendapatkan tanggal awal dan akhir minggu saat ini
-        $currentStartMonth = Carbon::now()->startOfWeek();
-        $currentEndMonth = Carbon::now()->endOfWeek();
+        $currentStartWeek = Carbon::now()->startOfWeek();
+        $currentEndWeek = Carbon::now()->endOfWeek();
 
-        $laporans = Barang::with('kategori')->whereBetween('created_at', [$currentStartMonth, $currentEndMonth])->get();
+        $laporans = Barang::with('kategori')->whereBetween('created_at', [$currentStartWeek, $currentEndWeek])->get();
 
         return view(
             'dashboard.laporan-barang.mingguan',

@@ -15,8 +15,8 @@ class LaporanTahunanPeminjamanController extends Controller
      */
     public function index()
     {
-        $currentStartYear = Carbon::now()->subYear()->startOfYear();
-        $currentEndYear = Carbon::now()->subYear()->endOfYear();
+        $currentStartYear = Carbon::now()->startOfYear();
+        $currentEndYear = Carbon::now()->endOfYear();
 
         $laporans = Peminjaman::with('detailsPeminjamans')->whereBetween('created_at', [$currentStartYear, $currentEndYear])->get();
 

@@ -14,7 +14,7 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barangs = Barang::with('kategori')->get();
+        $barangs = Barang::with('kategori')->latest()->get();
         $kategoris = Kategori::all();
 
         return view('dashboard.barang.index', [
