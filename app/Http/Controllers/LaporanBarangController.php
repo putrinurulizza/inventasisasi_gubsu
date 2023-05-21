@@ -16,13 +16,13 @@ class LaporanBarangController extends Controller
 
     public function index()
     {
+        $kategoris = Kategori::all();
         $laporans = Barang::all();
         return view('dashboard.laporan-barang.index',
         [
             'title' => 'Laporan Barang',
-            'kategoris' => Kategori::all(),
             'laporans' => Barang::with('kategori')->where('id_kategori')->latest()->get()
-        ])->with(compact('laporans'));
+        ])->with(compact('laporans','kategoris'));
         ;
     }
 

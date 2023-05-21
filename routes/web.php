@@ -61,6 +61,8 @@ Route::prefix('/dashboard')->group(function (){
     });
 });
 
+
+
 Route::fallback(function () {
     return redirect()->route('login');
 });

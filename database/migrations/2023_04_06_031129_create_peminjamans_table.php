@@ -16,6 +16,7 @@ return new class extends Migration
             $table->dateTime('tgl_pinjam');
             $table->dateTime('tgl_kembali')->nullable();
             $table->string('nama_peminjam');
+            $table->string('status');
             $table->string('bidang');
             $table->string('keterangan')->nullable();
             $table->timestamps();
