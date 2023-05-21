@@ -6,7 +6,7 @@ use App\Models\Barang;
 use App\Models\DetailPeminjaman;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 
 
 class PeminjamanController extends Controller
@@ -16,32 +16,32 @@ class PeminjamanController extends Controller
      */
 
      public function index()
-    {
-        // Ambil semua barang yang tersedia atau sudah dikembalikan
-        $availableBarangs = Barang::whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('detailpeminjamans')
-                ->join('peminjamans', 'detailpeminjamans.id_peminjaman', '=', 'peminjamans.id')
-                ->whereRaw('detailpeminjamans.id_barang = barangs.id')
-                ->where('peminjamans.status', '=', 'pinjam');
-        })->orWhereExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('detailpeminjamans')
-                ->join('peminjamans', 'detailpeminjamans.id_peminjaman', '=', 'peminjamans.id')
-                ->whereRaw('detailpeminjamans.id_barang = barangs.id')
-                ->where('peminjamans.status', '=', 'selesai');
-        })->get();
+     {
+         $usedBarangIds = DetailPeminjaman::join('peminjamans', 'detailpeminjamans.id_peminjaman', '=', 'peminjamans.id')
+             ->whereIn('peminjamans.status', ['pinjam', 'selesai'])
+             ->pluck('detailpeminjamans.id_barang')
+             ->toArray();
 
-        $peminjamans = Peminjaman::with('detailsPeminjamans.barang')->latest()->get();
+         $availableBarangs = Barang::whereNotIn('id', $usedBarangIds)->get();
 
-        return view('dashboard.peminjaman.index', [
-            'title' => 'Data Peminjaman',
-            'peminjamans' => $peminjamans,
-            'availableBarangs' => $availableBarangs,
-        ]);
-    }
+         // Untuk menampilkan barang yang sudah dikembalikan
+         $returnedBarangs = DetailPeminjaman::join('peminjamans', 'detailpeminjamans.id_peminjaman', '=', 'peminjamans.id')
+             ->where('peminjamans.status', 'selesai')
+             ->pluck('detailpeminjamans.id_barang')
+             ->toArray();
 
+         $returnedBarangsData = Barang::whereIn('id', $returnedBarangs)->get();
 
+         $availableBarangs = $availableBarangs->concat($returnedBarangsData);
+
+         $peminjamans = Peminjaman::with('detailsPeminjamans.barang')->latest()->get();
+
+         return view('dashboard.peminjaman.index', [
+             'title' => 'Data Peminjaman',
+             'peminjamans' => $peminjamans,
+             'availableBarangs' => $availableBarangs,
+         ]);
+     }
 
     /**
      * Show the form for creating a new resource.

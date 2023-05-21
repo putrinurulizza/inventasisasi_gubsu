@@ -3,22 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    function index()
+    public function index()
     {
-        return view('dashboard.index', [
-            'tool_network' => Barang::where('id_kategori', '1')->get()->count(),
-            'storage' => Barang::where('id_kategori', '2')->get()->count(),
-            'multimedia' => Barang::where('id_kategori', '3')->get()->count(),
-            'habis_pakai' => Barang::where('id_kategori', '4')->get()->count(),
-            'pc' => Barang::where('id_kategori', '5')->get()->count(),
-            'access_point' => Barang::where('id_kategori', '6')->get()->count(),
-            'switch' => Barang::where('id_kategori', '7')->get()->count(),
-            'router' => Barang::where('id_kategori', '8')->get()->count()
-        ]);
+        $kategoriBarangs = [];
 
+        // Ambil semua kategori barang yang tersedia
+        $kategoris = Kategori::all();
+
+        // Loop melalui setiap kategori barang
+        foreach ($kategoris as $kategori) {
+            $jumlahBarang = Barang::where('id_kategori', $kategori->id)->count();
+
+            // Buat array untuk setiap kategori barang
+            $kategoriBarangs[] = [
+                'nama_kategori' => $kategori->kategori,
+                'jumlah_barang' => $jumlahBarang,
+            ];
+        }
+
+        return view('dashboard.index', compact('kategoriBarangs'));
     }
 }
