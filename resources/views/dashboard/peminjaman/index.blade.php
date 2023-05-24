@@ -76,7 +76,7 @@
                             <label for="keterangan" class="form-label">Habis Pakai</label>
                             <select class="form-select" id="hbs_pakai" name="hbs_pakai">
                                 <option value="0">
-                                    Tidak habis Pakai
+                                    Tidak Habis Pakai
                                 </option>
                                 <option value="1">
                                     Habis pakai

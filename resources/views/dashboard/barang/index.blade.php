@@ -51,16 +51,16 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
-                                            {{-- @if ($barang->detailpeminjamans && $barang->detailpeminjamans->isNotEmpty()) --}}
+                                            @if ($barang->detailpeminjamans && $barang->detailpeminjamans->isNotEmpty())
 
-                                                @if ($barang->detailpeminjamans == 0)
-                                                    <span class="badge badge-success bg-success">Tersedia</span>
+                                                @if ($barang->detailpeminjamans->status == 1)
+                                                    <span class="badge badge-success bg-success">Dipinjam</span>
                                                 @else
-                                                    <span class="badge badge-danger bg-danger">Dipinjam</span>
+                                                    <span class="badge badge-danger bg-danger">Tersedia</span>
                                                 @endif
-                                            {{-- @else
+                                             @else
                                                 <span class="badge badge-success bg-success">Tersedia</span>
-                                            @endif --}}
+                                            @endif
                                         </td>
 
                                         <td>{{ $barang->kode_barang }}</td>

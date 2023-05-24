@@ -61,7 +61,7 @@
                                     <th hidden></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tableBody">
                                 @foreach ($laporans as $laporan)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
@@ -109,6 +109,12 @@
 
         $(document).ready(function() {
 
+            function resetRowNumbers() {
+                $('#tableBody tr').each(function(index) {
+                    $(this).find('td:first').text(index + 1);
+                });
+            }
+
             // Create date inputs
             minDate = new DateTime($('#min'), {
                 format: 'Do MMMM YYYY'
@@ -134,6 +140,9 @@
             // Refilter the table
             $('#min, #max').on('change', function() {
                 table.draw();
+
+                // Reset row numbers
+                resetRowNumbers();
             });
 
             $('.dataTables_filter input[type="search"]').css({
@@ -143,6 +152,9 @@
             $('#filter').on('change', function() {
                 var filter = $(this).val();
                 table.column(2).search(filter).draw();
+
+                // Reset row numbers
+                resetRowNumbers();
             });
         });
     </script>

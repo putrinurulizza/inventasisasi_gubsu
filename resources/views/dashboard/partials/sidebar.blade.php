@@ -1,7 +1,7 @@
 <nav class="navbar-vertical navbar">
     <div class="nav-scroller">
       <!-- Brand logo -->
-      <a class="navbar-brand text-center" href="./index.html">
+      <a class="navbar-brand text-center" href="{{ route('dashboard.index') }}">
         <img class="logo-brand" src="{{ asset('images/logos/main-logo.png') }}" alt="diskominfo sumut" style="
           width:80%"/>
       </a>

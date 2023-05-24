@@ -20,16 +20,21 @@
                             style="width:100%">
                             <ul class="nav nav-tabs mb-5">
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-utama') ? 'active' : '' }}" aria-current="page" href="{{ route('laporan-peminjaman-utama.index') }}">RealTime</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-utama') ? 'active' : '' }}"
+                                        aria-current="page"
+                                        href="{{ route('laporan-peminjaman-utama.index') }}">RealTime</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-mingguan') ? 'active' : '' }}" href="{{ route('laporan-peminjaman-mingguan.index') }}">Mingguan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-mingguan') ? 'active' : '' }}"
+                                        href="{{ route('laporan-peminjaman-mingguan.index') }}">Mingguan</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-bulanan') ? 'active' : '' }}" href="{{ route('laporan-peminjaman-bulanan.index') }}">Bulanan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-bulanan') ? 'active' : '' }}"
+                                        href="{{ route('laporan-peminjaman-bulanan.index') }}">Bulanan</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-tahunan') ? 'active' : '' }}" href="{{ route('laporan-peminjaman-tahunan.index') }}">Tahunan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-peminjaman/laporan-peminjaman-tahunan') ? 'active' : '' }}"
+                                        href="{{ route('laporan-peminjaman-tahunan.index') }}">Tahunan</a>
                                 </li>
                             </ul>
                             <thead>
@@ -46,20 +51,20 @@
                             </thead>
                             <tbody>
                                 @foreach ($laporans as $laporan)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $laporan->tgl_pinjam }}</td>
-                                    <td>{{ $laporan->tgl_kembali }}</td>
-                                    <td>{{ $laporan->nama_peminjam }}</td>
-                                    <td>{{ $laporan->bidang }}</td>
-                                    <td>
-                                        @foreach ($laporan->detailsPeminjamans as $barang)
-                                            {!! '• ' . $barang->barang->deskripsi_barang . '<br>' !!}
-                                        @endforeach
-                                    </td>
-                                    <td>{{ $laporan->keterangan }}</td>
-                                    <td hidden>{{ $laporan->created_at }}</td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $laporan->tgl_pinjam }}</td>
+                                        <td>{{ $laporan->tgl_kembali }}</td>
+                                        <td>{{ $laporan->nama_peminjam }}</td>
+                                        <td>{{ $laporan->bidang }}</td>
+                                        <td>
+                                            @foreach ($laporan->detailsPeminjamans as $barang)
+                                                {!! '• ' . $barang->barang->deskripsi_barang . '<br>' !!}
+                                            @endforeach
+                                        </td>
+                                        <td>{{ $laporan->keterangan }}</td>
+                                        <td hidden>{{ $laporan->created_at }}</td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -120,6 +125,16 @@
             $('#min, #max').on('change', function() {
                 table.draw();
             });
+
+            // Update the row numbers when the table is filtered or sorted
+            table.on('order.dt search.dt', function() {
+                table.column(0, {
+                    search: 'applied',
+                    order: 'applied'
+                }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
 
             $('.dataTables_filter input[type="search"]').css({
                 "marginBottom": "10px"
