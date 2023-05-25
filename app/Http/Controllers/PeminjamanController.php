@@ -15,8 +15,8 @@ class PeminjamanController extends Controller
      * Display a listing of the resource.
      */
 
-     public function index()
-     {
+    public function index()
+    {
         $barangs = Barang::where(function ($query) {
             $query->doesntHave('DetailPeminjaman')
                 ->orWhereHas('DetailPeminjaman', function ($query) {
@@ -26,12 +26,12 @@ class PeminjamanController extends Controller
 
         $peminjamans = Peminjaman::with('detailsPeminjamans.barang.kategori')->latest()->get();
 
-         return view('dashboard.peminjaman.index', [
-             'title' => 'Data Peminjaman',
-             'peminjamans' => $peminjamans,
-             'barangs' => $barangs
-         ]);
-     }
+        return view('dashboard.peminjaman.index', [
+            'title' => 'Data Peminjaman',
+            'peminjamans' => $peminjamans,
+            'barangs' => $barangs
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -117,7 +117,6 @@ class PeminjamanController extends Controller
                 'status' => 'required'
             ]);
             $DePeminjaman->where('id_peminjaman', $peminjamans->id)->update($validatedDePeminjaman);
-
         } catch (\Illuminate\Validation\ValidationException $exception) {
             return redirect()->route('peminjaman.index')->with('failed', $exception->getMessage());
         }

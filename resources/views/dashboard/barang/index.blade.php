@@ -22,7 +22,7 @@
 
 
         <button class="btn btn-primary fs-5 fw-normal mt-2" data-bs-toggle="modal" data-bs-target="#tambahBarang"><i
-            class="fa-solid fa-square-plus fs-5 me-2"></i>Tambah</button>
+                class="fa-solid fa-square-plus fs-5 me-2"></i>Tambah</button>
         <div class="row mt-3">
             <div class="col">
                 <div class="card mt-2">
@@ -51,14 +51,13 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
-                                            @if ($barang->detailpeminjamans && $barang->detailpeminjamans->isNotEmpty())
-
-                                                @if ($barang->detailpeminjamans->status == 1)
-                                                    <span class="badge badge-success bg-success">Dipinjam</span>
+                                            @if ($barang->DetailPeminjaman && $barang->DetailPeminjaman->isNotEmpty())
+                                                @if ($barang->DetailPeminjaman[0]->status == 1)
+                                                    <span class="badge badge-danger bg-danger">Dipinjam</span>
                                                 @else
-                                                    <span class="badge badge-danger bg-danger">Tersedia</span>
+                                                    <span class="badge badge-success bg-success">Tersedia</span>
                                                 @endif
-                                             @else
+                                            @else
                                                 <span class="badge badge-success bg-success">Tersedia</span>
                                             @endif
                                         </td>

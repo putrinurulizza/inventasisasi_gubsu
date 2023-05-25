@@ -30,6 +30,6 @@ class Barang extends Model
 
     public function DetailPeminjaman()
     {
-        return $this->hasMany(DetailPeminjaman::class, 'id_barang');
+        return $this->hasMany(DetailPeminjaman::class, 'id_barang')->orderBy('id', 'DESC');
     }
 }

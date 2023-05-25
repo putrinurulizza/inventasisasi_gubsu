@@ -17,6 +17,7 @@ class BarangController extends Controller
         $barangs = Barang::with('DetailPeminjaman')->latest()->get();
 
         $kategoris = Kategori::all();
+        // dd($barangs);
 
         return view('dashboard.barang.index', [
             'title' => 'Data Barang',
