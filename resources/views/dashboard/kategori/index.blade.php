@@ -1,8 +1,8 @@
 @extends('dashboard.layouts.main')
 
 @section('content')
-  <div class="container">
-    <h2 class="main-title mt-2 fw-semibold fs-3">Tabel Data Kategori</h2>
+    <div class="container">
+        <h2 class="main-title mt-2 fw-semibold fs-3">Tabel Data Kategori</h2>
 
         <div class="row">
             <div class="col-sm-6 col-md">
@@ -39,20 +39,20 @@
                             </thead>
                             <tbody>
                                 @foreach ($kategoris as $kategori)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $kategori->kategori }}</td>
-                                    <td>
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $kategori->kategori }}</td>
+                                        <td>
                                             <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                data-bs-target="#editmodal{{ $loop->iteration}}">
+                                                data-bs-target="#editmodal{{ $loop->iteration }}">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </button>
                                             <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#hapusmodal{{ $loop->iteration}}">
+                                                data-bs-target="#hapusmodal{{ $loop->iteration }}">
                                                 <i class="fa-solid fa-trash"></i>
                                             </button>
                                         </td>
-                                </tr>
+                                    </tr>
 
 
                                     <!-- Edit Data Kategori -->
@@ -63,13 +63,17 @@
                                         @slot('method') @method('put') @endslot
                                         @slot('btnprimaryTitle', 'Perbarui')
 
+                                        @csrf
                                         <div class="row">
                                             <div class="mb-3">
                                                 <label for="kategori" class="form-label">Kategori</label>
-                                                <input type="text" class="form-control @error('kategori') is-invalid @enderror" name="kategori" id="kategori" value="{{ old('kategori', $kategori->kategori) }}" autofocus required>
+                                                <input type="text"
+                                                    class="form-control @error('kategori') is-invalid @enderror"
+                                                    name="kategori" id="kategori"
+                                                    value="{{ old('kategori', $kategori->kategori) }}" autofocus required>
                                                 @error('kategori')
                                                     <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                        {{ $message }}
                                                     </div>
                                                 @enderror
                                             </div>
@@ -77,22 +81,22 @@
                                     </x-form_modal>
                                     {{-- / Edit Data Kategori --}}
 
-                                        <!-- Hapus Data Kategori -->
-                                        <x-form_modal>
-                                            @slot('id', "hapusmodal$loop->iteration")
-                                            @slot('title', 'Hapus Data Kategori')
-                                            @slot('route', route('kategori.destroy', $kategori->id))
-                                            @slot('method') @method('delete') @endslot
-                                            @slot('btnPrimaryClass', 'btn-outline-danger')
-                                            @slot('btnSecondaryClass', 'btn-secondary')
-                                            @slot('btnPrimaryTitle', 'Hapus')
+                                    <!-- Hapus Data Kategori -->
+                                    <x-form_modal>
+                                        @slot('id', "hapusmodal$loop->iteration")
+                                        @slot('title', 'Hapus Data Kategori')
+                                        @slot('route', route('kategori.destroy', $kategori->id))
+                                        @slot('method') @method('delete') @endslot
+                                        @slot('btnPrimaryClass', 'btn-outline-danger')
+                                        @slot('btnSecondaryClass', 'btn-secondary')
+                                        @slot('btnPrimaryTitle', 'Hapus')
 
-                                            <p class="fs-5">Apakah anda yakin akan menghapus data kategori
-                                                <b>{{ $kategori->kategori }}</b>?
-                                            </p>
-                                     </x-form_modal>
-                                     {{-- / Hapus Data Kategori --}}
-                           @endforeach
+                                        <p class="fs-5">Apakah anda yakin akan menghapus data kategori
+                                            <b>{{ $kategori->kategori }}</b>?
+                                        </p>
+                                    </x-form_modal>
+                                    {{-- / Hapus Data Kategori --}}
+                                @endforeach
                             </tbody>
                         </table>
                         {{-- / Tabel Data Kategori --}}
@@ -108,13 +112,15 @@
         @slot('title', 'Tambah Data Kategori')
         @slot('route', route('kategori.store'))
 
+        @csrf
         <div class="row">
             <div class="mb-3">
                 <label for="kategori" class="form-label">Kategori</label>
-                <input type="text" class="form-control @error('kategori') is-invalid @enderror" name="kategori" id="kategori" autofocus required>
+                <input type="text" class="form-control @error('kategori') is-invalid @enderror" name="kategori"
+                    id="kategori" autofocus required>
                 @error('kategori')
                     <div class="invalid-feedback">
-                    {{ $message }}
+                        {{ $message }}
                     </div>
                 @enderror
             </div>
@@ -122,4 +128,3 @@
     </x-form_modal>
     {{-- / Modal Tambah Kategori --}}
 @endsection
-

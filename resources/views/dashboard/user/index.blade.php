@@ -1,8 +1,8 @@
 @extends('dashboard.layouts.main')
 
 @section('content')
-  <div class="container">
-    <h2 class="main-title mt-2 fw-semibold fs-3">Tabel Data User</h2>
+    <div class="container">
+        <h2 class="main-title mt-2 fw-semibold fs-3">Tabel Data User</h2>
 
         <div class="row">
             <div class="col-sm-6 col-md">
@@ -42,9 +42,9 @@
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td>{{ $loop->iteration}}</td>
-                                        <td>{{ $user->nama}}</td>
-                                        <td>{{ $user->username}}</td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $user->nama }}</td>
+                                        <td>{{ $user->username }}</td>
                                         <td>
                                             @php
                                                 if ($user->is_admin) {
@@ -75,6 +75,7 @@
                                         @slot('method') @method('put') @endslot
                                         @slot('btnPrimaryTitle', 'Perbarui')
 
+                                        @csrf
                                         <div class="mb-3">
                                             <label for="nama" class="form-label">Nama</label>
                                             <input type="name" class="form-control @error('nama') is-invalid @enderror"
@@ -127,8 +128,7 @@
 
                                     </x-form_modal>
                                     {{-- / Modal Hapus User  --}}
-
-                                    @endforeach
+                                @endforeach
                             </tbody>
                         </table>
                         {{-- / Tabel Data ... --}}
@@ -138,53 +138,53 @@
         </div>
     </div>
 
-        <!-- Modal Tambah User -->
-        <x-form_modal>
-            @slot('id', 'tambahUser')
-            @slot('title', 'Tambah Data User')
-            @slot('overflow', 'overflow-auto')
-            @slot('route', route('user.store'))
+    <!-- Modal Tambah User -->
+    <x-form_modal>
+        @slot('id', 'tambahUser')
+        @slot('title', 'Tambah Data User')
+        @slot('overflow', 'overflow-auto')
+        @slot('route', route('user.store'))
 
-            <div class="row">
-                <div class="mb-3">
-                    <label for="nama" class="form-label">Nama</label>
-                    <input type="name" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
-                        autofocus required>
-                    @error('nama')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
-                        name="username" autofocus required>
-                    @error('username')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
-                        name="password" autofocus required>
-                    @error('password')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="is_admin" class="form-label">Role</label>
-                    <select class="form-select" id="is_admin" name="is_admin">
-                        <option value="1" selected>Admin</option>
-                        <option value="0">User</option>
-                    </select>
-                </div>
+        @csrf
+        <div class="row">
+            <div class="mb-3">
+                <label for="nama" class="form-label">Nama</label>
+                <input type="name" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
+                    autofocus required>
+                @error('nama')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
-        </x-form_modal>
-        <!-- Akhir Modal Tambah User -->
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
+                    name="username" autofocus required>
+                @error('username')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+                    name="password" autofocus required>
+                @error('password')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="is_admin" class="form-label">Role</label>
+                <select class="form-select" id="is_admin" name="is_admin">
+                    <option value="1" selected>Admin</option>
+                    {{-- <option value="0">User</option> --}}
+                </select>
+            </div>
+        </div>
+    </x-form_modal>
+    <!-- Akhir Modal Tambah User -->
 @endsection
-

@@ -12,6 +12,14 @@
                 <label for="floatingInput">Tanggal akhir</label>
                 <input type="text" id="max" name="max" class="form-control" placeholder="">
             </div>
+            {{-- <div class="col-lg-3">
+                <label for="floatingInput">Tanggal Awal</label>
+                <input type="date" id="min" name="min" class="form-control" placeholder="">
+            </div>
+            <div class="col-lg-3">
+                <label for="floatingInput">Tanggal Akhir</label>
+                <input type="date" id="max" name="max" class="form-control" placeholder="">
+            </div> --}}
             <div class="col">
                 <div class="card mt-2">
                     <div class="card-body">
@@ -84,7 +92,7 @@
             function(settings, data, dataIndex) {
                 var min = minDate.val();
                 var max = maxDate.val();
-                var date = new Date(data[1]);
+                var date = new Date(data[7]);
                 if (
                     (min === null && max === null) ||
                     (min === null && date <= max) ||
@@ -113,7 +121,7 @@
                     "searchPlaceholder": "Search...",
                 },
                 lengthChange: true,
-                buttons: ['excel', 'pdf']
+                buttons: ['excel']
             });
 
             table.buttons().container()
@@ -140,5 +148,74 @@
                 "marginBottom": "10px"
             });
         });
+
+        // var minDate, maxDate;
+
+        // $('#min').change(function() {
+        //     $("#Table").DataTable().destroy();
+        //     dt_laporan();
+        // });
+
+        // $('#max').change(function() {
+        //     $("#Table").DataTable().destroy();
+        //     dt_laporan();
+        // });
+
+        // function dt_laporan() {
+
+        //     $("#Table").DataTable({
+        //         responsive: true,
+        //         processing: true,
+        //         serverSide: true,
+        //         stateSave: true,
+        //         autoWidth: true,
+        //         info: true,
+        //         dom: 'Bfrtip',
+        //         paging: true,
+        //         "language": {
+        //             "search": "",
+        //             "searchPlaceholder": "Search...",
+        //         },
+        //         lengthChange: true,
+        //         buttons: ['excel', 'pdf'],
+        //         ajax: {
+        //             url: "{{ route('laporan.dt-laporan-pinjam') }}",
+        //             data: {
+        //                 'minDate': $("#min").val(),
+        //                 'maxDate': $("#max").val(),
+        //             }
+        //         },
+        //         columns: [{
+        //             data: null,
+        //             sortable: false,
+        //             render: function(data, type, row, meta) {
+        //                 return meta.row + meta.settings._iDisplayStart + 1;
+        //             }
+        //         }, {
+        //             data: 'tgl_pinjam',
+        //             name: 'tgl_pinjam',
+        //         }, {
+        //             data: 'tgl_kembali',
+        //             name: 'tgl_kembali',
+        //         }, {
+        //             data: 'nama_peminjam',
+        //             name: 'nama_peminjam',
+        //         }, {
+        //             data: 'bidang',
+        //             name: 'bidang',
+        //         }, {
+        //             data: 'detailpeminjamans.barang.deskripsi_barang',
+        //             name: 'detailpeminjamans.barang.deskripsi_barang',
+        //         }, {
+        //             data: 'keterangan',
+        //             name: 'keterangan',
+        //         }],
+        //         order: [
+        //             [1, 'desc']
+        //         ]
+        //     });
+        // }
+
+        // dt_laporan();
     </script>
 @endsection

@@ -123,7 +123,7 @@
                     "searchPlaceholder": "Search...",
                 },
                 lengthChange: true,
-                buttons: ['excel', 'pdf'],
+                buttons: ['excel'],
                 ajax: {
                     url: "{{ route('laporan.dt-laporan') }}",
                     data: {
@@ -157,11 +157,11 @@
                     data: 'tahun_pengadaan',
                     name: 'tahun_pengadaan',
                 }, {
-                    data: 'keterangan',
-                    name: 'keterangan',
-                }, {
                     data: 'kondisi_barang',
                     name: 'kondisi_barang',
+                }, {
+                    data: 'keterangan',
+                    name: 'keterangan',
                 }],
                 order: [
                     [1, 'desc']

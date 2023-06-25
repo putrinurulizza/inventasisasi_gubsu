@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DetailPeminjaman;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 
 class LaporanPeminjamanController extends Controller
@@ -18,10 +19,12 @@ class LaporanPeminjamanController extends Controller
     {
         $laporans = Peminjaman::with('detailsPeminjamans')->latest()->get();
 
-        return view('dashboard.laporan-peminjaman.index',
-        [
-            'title' => 'Laporan Peminjaman'
-        ])->with(compact('laporans'));
+        return view(
+            'dashboard.laporan-peminjaman.index',
+            [
+                'title' => 'Laporan Peminjaman'
+            ]
+        )->with(compact('laporans'));
     }
 
     /**
@@ -89,4 +92,25 @@ class LaporanPeminjamanController extends Controller
     {
         //
     }
+
+    // public function dt_laporan(Request $request)
+    // {
+    //     if ($request->get('minDate') != '' && $request->get('maxDate') != '') {
+
+    //         $mindate = $request->get('minDate');
+    //         $maxdate = $request->get('maxDate');
+
+    //         $data = Peminjaman::with('detailsPeminjamans')->whereBetween('created_at', [$mindate, $maxdate])->get();
+    //     } else if ($request->get('minDate') != '' && $request->get('maxDate') == '') {
+    //         $data = Peminjaman::with('detailsPeminjamans')->where('created_at', 'like',  $request->get('minDate') . '%')->get();
+    //     } else if ($request->get('minDate') == '' && $request->get('maxDate') == '') {
+    //         $data = Peminjaman::with('detailsPeminjamans')->get();
+    //     } else {
+    //         $data = Peminjaman::with('detailsPeminjamans')->get();
+    //     }
+
+    //     dd($data);
+
+    //     return DataTables::of($data)->make(true);
+    // }
 }

@@ -17,8 +17,17 @@ class DashboardController extends Controller
 
         // Loop melalui setiap kategori barang
         foreach ($kategoris as $kategori) {
-            $jumlahBarang = Barang::where('id_kategori', $kategori->id)->count();
-
+            if ($kategori->kategori == "Habis Pakai") {
+                $jumlahBarang1 = Barang::whereHas('kategori', function ($query) {
+                    $query->where('kategori', 'Habis Pakai');
+                })->where('status', 1)->count();
+                $jumlahBarang2 = Barang::whereHas('kategori', function ($query) {
+                    $query->where('kategori', 'Habis Pakai');
+                })->count();
+                $jumlahBarang = $jumlahBarang2 - $jumlahBarang1;
+            } else {
+                $jumlahBarang = Barang::where('id_kategori', $kategori->id)->count();
+            }
             // Buat array untuk setiap kategori barang
             $kategoriBarangs[] = [
                 'nama_kategori' => $kategori->kategori,
