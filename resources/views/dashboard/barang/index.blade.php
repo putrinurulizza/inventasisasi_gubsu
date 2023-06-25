@@ -51,12 +51,10 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
-                                            @if ($barang->DetailPeminjaman && $barang->DetailPeminjaman->isNotEmpty())
-                                                @if ($barang->DetailPeminjaman[0]->status == 1)
-                                                    <span class="badge badge-danger bg-danger">Dipinjam</span>
-                                                @else
-                                                    <span class="badge badge-success bg-success">Tersedia</span>
-                                                @endif
+                                            @if ($barang->status == 1 && $barang->kategori->kategori == 'Habis Pakai')
+                                                <span class="badge badge-danger bg-danger">Habis</span>
+                                            @elseif ($barang->status == 1)
+                                                <span class="badge badge-warning bg-warning">Dipinjam</span>
                                             @else
                                                 <span class="badge badge-success bg-success">Tersedia</span>
                                             @endif
@@ -89,7 +87,7 @@
                                         @slot('route', route('barang.update', $barang->id))
                                         @slot('method') @method('put') @endslot
                                         @slot('btnPrimaryTitle', 'Perbarui')
-
+                                        @csrf
                                         <div class="row">
                                             <div class="mb-3">
                                                 <label for="kode_barang" class="form-label">Kode Barang</label>
@@ -244,6 +242,7 @@
         @slot('overflow', 'overflow-auto')
         @slot('route', route('barang.store'))
 
+        @csrf
         <div class="row">
             <div class="mb-3">
                 <label for="kode_barang" class="form-label">Kode Barang</label>
@@ -336,6 +335,10 @@
                         {{ $message }}
                     </div>
                 @enderror
+            </div>
+            <div>
+                <input type="hidden" class="form-control @error('status') is-invalid @enderror" name="status"
+                    id="status" value="0">
             </div>
         </div>
     </x-form_modal>

@@ -54,7 +54,7 @@
                         <div class="mb-4">
                             <a href="#" class="d-flex justify-content-center">
                                 <img src="{{ asset('images/logos/main-logo.png') }}" class="img-fluid mb-6"
-                                    alt="Konter Sejahtera" style="width: 40%">
+                                    alt="Diskominfo Provsu" style="width: 40%">
                             </a>
                             <p class="mb-5">Please enter your user information.</p>
                         </div>

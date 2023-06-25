@@ -20,7 +20,8 @@ class Barang extends Model
         'lokasi_user',
         'tahun_pengadaan',
         'keterangan',
-        'kondisi_barang'
+        'kondisi_barang',
+        'status'
     ];
 
     public function Kategori()

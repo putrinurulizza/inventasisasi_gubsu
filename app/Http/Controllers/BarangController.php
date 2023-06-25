@@ -14,7 +14,7 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barangs = Barang::with('DetailPeminjaman')->latest()->get();
+        $barangs = Barang::with('Kategori', 'DetailPeminjaman')->latest()->get();
 
         $kategoris = Kategori::all();
         // dd($barangs);
@@ -59,6 +59,8 @@ class BarangController extends Controller
                 'keterangan' => 'nullable',
                 'kondisi_barang' => 'required'
             ]);
+
+            $validatedData['status'] = 0;
         } catch (\Illuminate\Validation\ValidationException $exception) {
             return redirect()->route('barang.index')->with('failed', $exception->getMessage());
         }
@@ -106,7 +108,6 @@ class BarangController extends Controller
             $barang->update($validatedData);
 
             return redirect()->route('barang.index')->with('success', "Data barang $barang->deskripsi_barang berhasil diperbarui!");
-
         } catch (\Illuminate\Validation\ValidationException $exception) {
             return redirect()->route('barang.index')->with('failed', 'Data gagal diperbarui! ' . $exception->getMessage());
         }

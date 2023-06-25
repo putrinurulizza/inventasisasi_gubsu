@@ -31,6 +31,7 @@
                     @slot('title', 'Tambah Peminjaman')
                     @slot('overflow', 'overflow-auto')
                     @slot('route', route('peminjaman.store'))
+                    @csrf
                     <div class="row">
                         <div class="mb-3">
                             <label for="barang" class="form-label">Barang</label>
@@ -83,6 +84,14 @@
                                 </option>
                             </select>
                         </div>
+                        <div>
+                            <input type="hidden" class="form-control @error('status') is-invalid @enderror" name="status"
+                                id="status" value="1">
+                        </div>
+                        <div>
+                            <input type="hidden" class="form-control @error('status_detail') is-invalid @enderror"
+                                name="status_detail" id="status_detail" value="1">
+                        </div>
                     </div>
 
                 </x-form_modal>
@@ -97,22 +106,24 @@
                                     <th>NO</th>
                                     <th>Barang</th>
                                     <th>Peminjam</th>
+                                    <th>Bidang</th>
                                     <th>Tanggal/Waktu Pinjam</th>
-                                    <th hidden>Status</th>
+                                    {{-- <th hidden>Status</th> --}}
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($peminjamans as $peminjaman)
                                     @foreach ($peminjaman->detailsPeminjamans as $detail)
-                                        @if ($detail->status == 1 && $detail->hbs_pakai == 0)
+                                        @if ($detail->status_detail == 1 && $detail->hbs_pakai == 0)
                                             <tr>
                                                 <td>{{ $loop->parent->iteration }}</td>
                                                 <td>{{ $detail->barang->deskripsi_barang }} -
                                                     {{ $detail->barang->kode_barang }}</td>
                                                 <td>{{ $peminjaman->nama_peminjam }}</td>
+                                                <td>{{ $peminjaman->bidang }}</td>
                                                 <td>{{ $peminjaman->tgl_pinjam }}</td>
-                                                <td hidden>{{ $detail->status }}</td>
+                                                {{-- <td hidden>{{ $detail->status }}</td> --}}
                                                 <td><button class="btn btn-primary" data-bs-toggle="modal"
                                                         data-bs-target="#checkmodal{{ $loop->parent->iteration }}"><i
                                                             class="fa-solid fa-box-check"></i></button></td>
@@ -138,7 +149,8 @@
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <div class="mb-3">
-                                                                    <label for="barang" class="form-label">Barang</label>
+                                                                    <label for="barang"
+                                                                        class="form-label">Barang</label>
                                                                     <input type="text"
                                                                         class="form-control @error('barang') is-invalid @enderror"
                                                                         name="id_barang" id="id_barang"
@@ -178,9 +190,17 @@
                                                                         </div>
                                                                     @enderror
                                                                 </div>
-                                                                <input type="text"
-                                                                    class="form-control @error('status') is-invalid @enderror"
-                                                                    name="status" id="status" value=0 hidden>
+                                                                <div>
+                                                                    <input type="hidden"
+                                                                        class="form-control @error('status') is-invalid @enderror"
+                                                                        name="status" id="status" value="0">
+                                                                </div>
+                                                                <div>
+                                                                    <input type="hidden"
+                                                                        class="form-control @error('status_detail') is-invalid @enderror"
+                                                                        name="status_detail" id="status_detail"
+                                                                        value="0">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">

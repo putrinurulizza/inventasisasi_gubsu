@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_peminjaman')->constrained('peminjamans')->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('id_barang')->constrained('barangs')->onUpdate('cascade')->onDelete('restrict');
-            $table->boolean('status');
+            $table->boolean('status_detail');
             $table->boolean('hbs_pakai');
             $table->timestamps();
         });

@@ -26,6 +26,7 @@ class BarangFactory extends Factory
             'tahun_pengadaan' => 2020,
             'keterangan' => '',
             'kondisi_barang' => 'Baik',
+            'status' => 0
         ];
     }
 }

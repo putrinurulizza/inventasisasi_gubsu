@@ -6,8 +6,8 @@ use App\Models\Kategori;
 use App\Models\Barang;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
-use DataTables;
 
 class LaporanBarangController extends Controller
 {

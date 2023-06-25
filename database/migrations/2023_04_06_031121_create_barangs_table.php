@@ -21,6 +21,7 @@ return new class extends Migration
             $table->year('tahun_pengadaan')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('kondisi_barang');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

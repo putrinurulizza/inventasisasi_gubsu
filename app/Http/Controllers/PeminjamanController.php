@@ -17,14 +17,8 @@ class PeminjamanController extends Controller
 
     public function index()
     {
-        $barangs = Barang::where(function ($query) {
-            $query->doesntHave('DetailPeminjaman')
-                ->orWhereHas('DetailPeminjaman', function ($query) {
-                    $query->where('status', '!=', '1');
-                });
-        })->get();
-
-        $peminjamans = Peminjaman::with('detailsPeminjamans.barang.kategori')->latest()->get();
+        $barangs = Barang::where('status', '!=', 1)->get();
+        $peminjamans = Peminjaman::with('detailsPeminjamans', 'detailsPeminjamans.barang')->latest()->get();
 
         return view('dashboard.peminjaman.index', [
             'title' => 'Data Peminjaman',
@@ -55,7 +49,7 @@ class PeminjamanController extends Controller
                 'keterangan' => 'nullable',
             ]);
 
-            $validatedPeminjaman['tgl_pinjam'] = date('Y-m-d:H-m-s');
+            $validatedPeminjaman['tgl_pinjam'] = date('Y-m-d:H-i-s');
             $validatedPeminjaman['tgl_kembali'] = null;
 
 
@@ -69,10 +63,15 @@ class PeminjamanController extends Controller
                 'hbs_pakai' => 'required',
             ]);
 
-            $validatedDePeminjaman['status'] = 1;
+            $validatedDePeminjaman['status_detail'] = 1;
             $validatedDePeminjaman['id_peminjaman'] = $idPeminjamanTerbaru;
 
             DetailPeminjaman::create($validatedDePeminjaman);
+
+            $DePeminjamanTerbaru = DetailPeminjaman::latest()->first();
+            $idBarangDePeminjamanTerbaru = $DePeminjamanTerbaru->id_barang;
+            $validatedBarang['status'] = 1;
+            Barang::where('id', $idBarangDePeminjamanTerbaru)->update(['status' => $validatedBarang['status']]);
         } catch (\Illuminate\Validation\ValidationException $exception) {
             return redirect()->route('peminjaman.index')->with('failed', $exception->getMessage());
         }
@@ -101,22 +100,23 @@ class PeminjamanController extends Controller
      */
     public function update(Request $request, Peminjaman $peminjaman, DetailPeminjaman $DePeminjaman)
     {
-
         try {
 
             $validatedPeminjaman = $request->validate([
                 'tgl_pinjam' => 'nullable',
                 'tgl_kembali' => 'nullable',
             ]);
-            $validatedPeminjaman['tgl_kembali'] = date('Y-m-d:H-m-s');
+            $validatedPeminjaman['tgl_kembali'] = date('Y-m-d:H-i-s');
 
             $peminjaman->update($validatedPeminjaman);
 
             $peminjamans = Peminjaman::latest()->first();
-            $validatedDePeminjaman = $request->validate([
-                'status' => 'required'
-            ]);
+            $validatedDePeminjaman['status_detail'] = 0;
             $DePeminjaman->where('id_peminjaman', $peminjamans->id)->update($validatedDePeminjaman);
+
+            $DePeminjamanTerbaru = DetailPeminjaman::latest()->first();
+            $validatedBarang['status'] = 0;
+            Barang::where('id', $DePeminjamanTerbaru->id_barang)->update($validatedBarang);
         } catch (\Illuminate\Validation\ValidationException $exception) {
             return redirect()->route('peminjaman.index')->with('failed', $exception->getMessage());
         }

@@ -13,11 +13,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('dashboard.user.index',
-        [
-            'title' => 'Data User',
-            'users' => User::all(),
-        ]);
+        return view(
+            'dashboard.user.index',
+            [
+                'title' => 'Data User',
+                'users' => User::all(),
+            ]
+        );
     }
 
     /**
