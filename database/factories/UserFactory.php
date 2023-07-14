@@ -21,7 +21,7 @@ class UserFactory extends Factory
         return [
             'nama' => fake()->name(),
             'username' => 'admin',
-            'is_admin' => 1,
+            'role' => 1,
             'email_verified_at' => now(),
             'password' => Hash::make('admin'),
             'remember_token' => Str::random(10),

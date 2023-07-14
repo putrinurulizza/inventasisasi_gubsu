@@ -109,6 +109,8 @@
 
         function dt_laporan() {
 
+            var userRole = {{ auth()->user()->id == 3 ? 'true' : 'false' }};
+
             $("#Table").DataTable({
                 responsive: true,
                 processing: true,

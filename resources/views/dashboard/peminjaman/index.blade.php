@@ -22,8 +22,11 @@
 
         <div class="row mt-1">
             <div class="col">
-                <button class="btn btn-primary fs-5 fw-normal mt-2 mb-2" data-bs-toggle="modal"
-                    data-bs-target="#tambahPinjam"><i class="fa-solid fa-square-plus fs-5 me-2"></i></i>Pinjam</button>
+                @if (auth()->user()->role != 3)
+                    <button class="btn btn-primary fs-5 fw-normal mt-2 mb-2" data-bs-toggle="modal"
+                        data-bs-target="#tambahPinjam"><i class="fa-solid fa-square-plus fs-5 me-2"></i></i>Pinjam
+                    </button>
+                @endif
 
                 <!-- Tambah Peminjaman -->
                 <x-form_modal>
@@ -36,6 +39,7 @@
                         <div class="mb-3">
                             <label for="barang" class="form-label">Barang</label>
                             <select class="form-select" id="id_barang" name="id_barang">
+                                <option selected disabled>Pilih Barang</option>
                                 @foreach ($barangs as $barang)
                                     <option value="{{ $barang->id }}">
                                         {{ $barang->deskripsi_barang }} - {{ $barang->kode_barang }}
@@ -109,7 +113,9 @@
                                     <th>Bidang</th>
                                     <th>Tanggal/Waktu Pinjam</th>
                                     {{-- <th hidden>Status</th> --}}
-                                    <th>Action</th>
+                                    @if (auth()->user()->role != 3)
+                                        <th>Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,9 +130,13 @@
                                                 <td>{{ $peminjaman->bidang }}</td>
                                                 <td>{{ $peminjaman->tgl_pinjam }}</td>
                                                 {{-- <td hidden>{{ $detail->status }}</td> --}}
-                                                <td><button class="btn btn-primary" data-bs-toggle="modal"
-                                                        data-bs-target="#checkmodal{{ $loop->parent->iteration }}"><i
-                                                            class="fa-solid fa-box-check"></i></button></td>
+                                                @if (auth()->user()->role != 3)
+                                                    <td><button class="btn btn-primary" data-bs-toggle="modal"
+                                                            data-bs-target="#checkmodal{{ $loop->parent->iteration }}"><i
+                                                                class="fa-solid fa-box-check"></i>
+                                                        </button>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @else
                                         @endif
@@ -223,4 +233,55 @@
             </div>
         </div>
     </div>
+@endsection
+
+{{-- @section('scripts')
+    <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+    <script>
+        const {
+            createApp
+        } = Vue
+
+        createApp({
+            mounted() {
+                $(".select2").select2({
+                    theme: 'bootstrap-5',
+                    //   dropdownParent: $("#pembelian")
+                });
+
+                $(document).on('select2:open', () => {
+                    document.querySelector('.select2-search__field').focus();
+                });
+            },
+        }).mount("#id_barang");
+    </script>
+@endsection --}}
+
+@section('scripts')
+    <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script> <!-- Tambahkan skrip untuk Select2 -->
+    <script>
+        const {
+            createApp
+        } = Vue;
+
+        createApp({
+            mounted() {
+                const selectElement = document.getElementById('id_barang');
+
+                $(selectElement).select2({
+                    theme: 'bootstrap-5',
+                });
+
+                $(document).on('select2:open', () => {
+                    document.querySelector('.select2-search__field').focus();
+                });
+                // $(selectElement).on('select2:open', () => {
+                //     setTimeout(() => {
+                //         $('.select2-search__field').focus();
+                //     }, 0);
+                // });
+            },
+        }).mount("#id_barang");
+    </script>
 @endsection

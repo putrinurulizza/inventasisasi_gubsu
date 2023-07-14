@@ -47,13 +47,15 @@
                                         <td>{{ $user->username }}</td>
                                         <td>
                                             @php
-                                                if ($user->is_admin) {
-                                                    $is_admin = 'Admin';
+                                                if ($user->role == 1) {
+                                                    $role = 'Super Admin';
+                                                } elseif ($user->role == 2) {
+                                                    $role = 'Admin';
                                                 } else {
-                                                    $is_admin = 'User';
+                                                    $role = 'User';
                                                 }
                                             @endphp
-                                            {{ $is_admin }}
+                                            {{ $role }}
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
@@ -63,6 +65,10 @@
                                             <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                                 data-bs-target="#hapusUser{{ $loop->iteration }}">
                                                 <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-secondary" data-bs-toggle="modal"
+                                                data-bs-target="#modalResetPassword{{ $loop->iteration }}">
+                                                <i class="fa-regular fa-unlock-keyhole"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -100,11 +106,11 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label for="is_admin" class="form-label">Role</label>
-                                            <select class="form-select" id="is_admin" name="is_admin">
-                                                @foreach ([1 => 'Admin', 0 => 'User'] as $bool => $role)
+                                            <label for="role" class="form-label">Role</label>
+                                            <select class="form-select" id="role" name="role">
+                                                @foreach ([1 => 'Super Admin', 2 => 'Admin', 3 => 'User'] as $bool => $role)
                                                     <option value="{{ $bool }}"
-                                                        {{ old('is_admin', $user->is_admin) == $bool ? 'selected' : '' }}>
+                                                        {{ old('role', $user->role) == $bool ? 'selected' : '' }}>
                                                         {{ $role }}</option>
                                                 @endforeach
                                             </select>
@@ -128,6 +134,30 @@
 
                                     </x-form_modal>
                                     {{-- / Modal Hapus User  --}}
+
+                                    {{-- Modal Reset Password Admin --}}
+                                    <x-form_modal>
+                                        @slot('id', "modalResetPassword$loop->iteration")
+                                        @slot('title', 'Ganti Password')
+                                        @slot('route', route('resetpassword.resetPasswordAdmin', $user->id))
+                                        @slot('method') @method('put') @endslot
+
+                                        @csrf
+                                        <div class="row">
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label text-dark">Password Baru</label>
+                                                <input type="password"
+                                                    class="form-control @error('password') is-invalid @enderror"
+                                                    id="password" name="password" autofocus required>
+                                                @error('password')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </x-form_modal>
+                                    {{-- / Modal Reset Password Admin --}}
                                 @endforeach
                             </tbody>
                         </table>
@@ -178,10 +208,11 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="is_admin" class="form-label">Role</label>
-                <select class="form-select" id="is_admin" name="is_admin">
-                    <option value="1" selected>Admin</option>
-                    {{-- <option value="0">User</option> --}}
+                <label for="role" class="form-label">Role</label>
+                <select class="form-select" id="role" name="role">
+                    <option value="1" selected>Super Admin</option>
+                    <option value="2">Admin</option>
+                    <option value="3">User</option>
                 </select>
             </div>
         </div>

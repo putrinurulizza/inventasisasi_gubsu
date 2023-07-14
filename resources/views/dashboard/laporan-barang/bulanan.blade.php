@@ -12,16 +12,20 @@
                             style="width:100%">
                             <ul class="nav nav-tabs mb-5">
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-utama') ? 'active' : '' }}" aria-current="page" href="{{ route('laporan-barang-utama.index') }}">RealTime</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-utama') ? 'active' : '' }}"
+                                        aria-current="page" href="{{ route('laporan-barang-utama.index') }}">RealTime</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-mingguan') ? 'active' : '' }}" href="{{ route('laporan-barang-mingguan.index') }}">Mingguan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-mingguan') ? 'active' : '' }}"
+                                        href="{{ route('laporan-barang-mingguan.index') }}">Mingguan</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-bulanan') ? 'active' : '' }}" href="{{ route('laporan-barang-bulanan.index') }}">Bulanan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-bulanan') ? 'active' : '' }}"
+                                        href="{{ route('laporan-barang-bulanan.index') }}">Bulanan</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-tahunan') ? 'active' : '' }}" href="{{ route('laporan-barang-tahunan.index') }}">Tahunan</a>
+                                    <a class="nav-link {{ Request::is('dashboard/laporan/laporan-barang/laporan-barang-tahunan') ? 'active' : '' }}"
+                                        href="{{ route('laporan-barang-tahunan.index') }}">Tahunan</a>
                                 </li>
                             </ul>
                             <thead>
@@ -40,18 +44,18 @@
                             </thead>
                             <tbody>
                                 @foreach ($laporans as $laporan)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $laporan->kode_barang }}</td>
-                                    <td>{{ $laporan->kategori->kategori}}</td>
-                                    <td>{{ $laporan->deskripsi_barang }} </td>
-                                    <td>{{ $laporan->serial_number}}</td>
-                                    <td>{{ $laporan->lokasi_user }}</td>
-                                    <td>{{ $laporan->tahun_pengadaan}}</td>
-                                    <td>{{ $laporan->kondisi_barang}}</td>
-                                    <td>{{ $laporan->keterangan }}</td>
-                                    <td hidden>{{ $laporan->created_at }}</td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $laporan->kode_barang }}</td>
+                                        <td>{{ $laporan->kategori->kategori }}</td>
+                                        <td>{{ $laporan->deskripsi_barang }} </td>
+                                        <td>{{ $laporan->serial_number }}</td>
+                                        <td>{{ $laporan->lokasi_user }}</td>
+                                        <td>{{ $laporan->tahun_pengadaan }}</td>
+                                        <td>{{ $laporan->kondisi_barang }}</td>
+                                        <td>{{ $laporan->keterangan }}</td>
+                                        <td hidden>{{ $laporan->created_at }}</td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -65,7 +69,6 @@
 
 @section('scripts')
     <script>
-
         $(document).ready(function() {
 
             var table = $('#Table').DataTable({
@@ -74,7 +77,7 @@
                     "searchPlaceholder": "Search...",
                 },
                 lengthChange: true,
-                buttons: ['excel', 'pdf']
+                buttons: ['excel']
             });
 
             table.buttons().container()

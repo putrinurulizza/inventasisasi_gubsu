@@ -15,7 +15,7 @@ use App\Http\Controllers\LaporanPeminjamanController;
 use App\Http\Controllers\LaporanBulananPeminjamanController;
 use App\Http\Controllers\LaporanTahunanPeminjamanController;
 use App\Http\Controllers\LaporanMingguanPeminjamanController;
-
+use App\Http\Controllers\ResetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +44,8 @@ Route::prefix('/dashboard')->group(function () {
 
     Route::resource('/user', UserController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
+    Route::put('/resetpassword/{user}', [ResetPasswordController::class, 'resetPasswordAdmin'])->name('resetpassword.resetPasswordAdmin')->middleware('auth');
+
     Route::prefix('/laporan')->group(function () {
         Route::prefix('/laporan-barang',)->group(function () {
             Route::get('dt-laporan', [LaporanBarangController::class, 'dt_laporan'])->name('laporan.dt-laporan')->middleware('auth');
@@ -67,10 +69,10 @@ Route::prefix('/dashboard')->group(function () {
 //     return redirect()->route('login');
 // });
 
-Route::fallback(function () {
-    if (session('url.intended')) {
-        return redirect(session('url.intended'));
-    } else {
-        return redirect()->route('login');
-    }
-});
+// Route::fallback(function () {
+//     if (session('url.intended')) {
+//         return redirect(session('url.intended'));
+//     } else {
+//         return redirect()->route('login');
+//     }
+// });

@@ -20,8 +20,11 @@
             </div>
         </div>
 
-        <button class="btn btn-primary fs-5 fw-normal mt-2" data-bs-toggle="modal" data-bs-target="#tambahkategori"><i
-                class="fa-solid fa-square-plus fs-5 me-2"></i>Tambah</button>
+        @if (auth()->user()->role != 3)
+            <button class="btn btn-primary fs-5 fw-normal mt-2" data-bs-toggle="modal" data-bs-target="#tambahkategori"><i
+                    class="fa-solid fa-square-plus fs-5 me-2"></i>Tambah
+            </button>
+        @endif
         <div class="row mt-3">
             <div class="col">
                 <div class="card mt-2">
@@ -34,7 +37,9 @@
                                 <tr>
                                     <th>NO</th>
                                     <th>Kategori</th>
-                                    <th>Action</th>
+                                    @if (auth()->user()->role != 3)
+                                        <th>Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,16 +47,18 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $kategori->kategori }}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                data-bs-target="#editmodal{{ $loop->iteration }}">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#hapusmodal{{ $loop->iteration }}">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
+                                        @if (auth()->user()->role != 3)
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                    data-bs-target="#editmodal{{ $loop->iteration }}">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#hapusmodal{{ $loop->iteration }}">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        @endif
                                     </tr>
 
 

@@ -40,7 +40,7 @@ class UserController extends Controller
                 'nama' => 'required|max:255',
                 'username' => ['required', 'min:5', 'max:16', 'unique:users'],
                 'password' => 'required|min:5|max:255',
-                'is_admin' => 'required',
+                'role' => 'required',
             ]);
         } catch (\Illuminate\Validation\ValidationException $exception) {
             return redirect()->route('user.index')->with('failed', $exception->getMessage());
@@ -78,7 +78,7 @@ class UserController extends Controller
             $rules = [
                 'nama' => 'required|max:255',
                 'username' => 'required|min:5|max:16|unique:users,username,' . $user->id,
-                'is_admin' => 'required',
+                'role' => 'required',
             ];
 
             $validatedData = $this->validate($request, $rules);

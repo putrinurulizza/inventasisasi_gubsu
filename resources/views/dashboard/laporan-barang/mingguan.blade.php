@@ -74,7 +74,7 @@
                     "searchPlaceholder": "Search...",
                 },
                 lengthChange: true,
-                buttons: ['excel', 'pdf']
+                buttons: ['excel']
             });
 
             table.buttons().container()
