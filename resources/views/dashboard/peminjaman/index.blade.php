@@ -34,11 +34,11 @@
                     @slot('title', 'Tambah Peminjaman')
                     @slot('overflow', 'overflow-auto')
                     @slot('route', route('peminjaman.store'))
-                    <div class="row">
+                    <div class="row" id="TambahPinjam">
                         <div class="mb-3">
-                            <label for="barang" class="form-label">Barang</label>
-                            <select class="form-select" id="id_barang" name="id_barang">
-                                <option selected disabled>Pilih Barang</option>
+                            <label for="id_barang" class="form-label">Barang</label>
+                            <select class="select2 form-select" id="id_barang" name="id_barang">
+                                <option >Pilih Barang</option>
                                 @foreach ($barangs as $barang)
                                     <option value="{{ $barang->id }}">
                                         {{ $barang->deskripsi_barang }} - {{ $barang->kode_barang }}
@@ -234,31 +234,8 @@
     </div>
 @endsection
 
-{{-- @section('scripts')
-    <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
-    <script>
-        const {
-            createApp
-        } = Vue
-
-        createApp({
-            mounted() {
-                $(".select2").select2({
-                    theme: 'bootstrap-5',
-                    //   dropdownParent: $("#pembelian")
-                });
-
-                $(document).on('select2:open', () => {
-                    document.querySelector('.select2-search__field').focus();
-                });
-            },
-        }).mount("#id_barang");
-    </script>
-@endsection --}}
-
 @section('scripts')
     <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
-    <script src="{{ asset('js/select2.min.js') }}"></script> <!-- Tambahkan skrip untuk Select2 -->
     <script>
         const {
             createApp
@@ -266,21 +243,16 @@
 
         createApp({
             mounted() {
-                const selectElement = document.getElementById('id_barang');
 
-                $(selectElement).select2({
+                $(".select2").select2({
                     theme: 'bootstrap-5',
                 });
 
                 $(document).on('select2:open', () => {
                     document.querySelector('.select2-search__field').focus();
                 });
-                // $(selectElement).on('select2:open', () => {
-                //     setTimeout(() => {
-                //         $('.select2-search__field').focus();
-                //     }, 0);
-                // });
+
             },
-        }).mount("#id_barang");
+        }).mount("#TambahPinjam");
     </script>
 @endsection

@@ -2,6 +2,8 @@
 <script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('libs/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('js/vue.global.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {{-- <script src="{{ asset('libs/prismjs/prism.js') }}"></script> --}}
 {{-- <script src="{{ asset('libs/apexcharts/dist/apexcharts.min.js') }}"></script> --}}
 {{-- <script src="{{ asset('libs/dropzone/dist/min/dropzone.min.js') }}"></script> --}}
