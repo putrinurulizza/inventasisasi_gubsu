@@ -40,7 +40,7 @@ Route::prefix('/dashboard')->group(function () {
 
     Route::resource('/barang', BarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
-    Route::resource('/peminjaman', PeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+    Route::resource('/peminjaman', PeminjamanController::class)->except(['show', 'edit'])->middleware('auth');
 
     Route::resource('/user', UserController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 

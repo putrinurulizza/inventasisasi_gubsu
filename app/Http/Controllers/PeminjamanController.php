@@ -32,7 +32,12 @@ class PeminjamanController extends Controller
      */
     public function create()
     {
-        //
+        $barangs = Barang::where('status', '!=', 1)->get();
+
+        return view('dashboard.peminjaman.create', [
+            'title' => 'Tambah Peminjaman Baru',
+            'barangs' => $barangs
+        ]);
     }
 
     /**
