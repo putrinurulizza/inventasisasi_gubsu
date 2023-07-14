@@ -24,9 +24,15 @@
 
 {{-- JQuery --}}
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="{{ asset('libs/jquery/dist/jquery-3.6.3.min.js') }}"></script>
 
 <!-- Chart JS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Select2 JS -->
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('libs/select2js/select2-bootstrap-5-theme.css') }}">
+<script src="{{ asset('js/select2.min.js') }}"></script>
 
 <!-- Filepond -->
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
