@@ -28,8 +28,98 @@
                     </button>
                 @endif
 
+                <!-- Modal -->
+                <div class="modal fade" id="tambahPinjam" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Tambah Peminjaman</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <form action="{{ route('peminjaman.store') }}" method="post">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="barang" class="form-label">Barang</label>
+                                            <select class="form-select" id="id_barang" name="id_barang">
+                                                <option selected disabled>Pilih Barang</option>
+                                                @foreach ($barangs as $barang)
+                                                    <option value="{{ $barang->id }}">
+                                                        {{ $barang->deskripsi_barang }} - {{ $barang->kode_barang }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="nama_peminjam" class="form-label">Nama Peminjam</label>
+                                            <input type="text"
+                                                class="form-control @error('nama_peminjam') is-invalid @enderror"
+                                                name="nama_peminjam" id="nama_peminjam" autofocus required>
+                                            @error('nama_peminjam')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="bidang" class="form-label">Bidang</label>
+                                            <input type="text" class="form-control @error('bidang') is-invalid @enderror"
+                                                name="bidang" id="bidang" autofocus required>
+                                            @error('bidang')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="keterangan" class="form-label">Keterangan</label>
+                                            <input type="text"
+                                                class="form-control @error('keterangan') is-invalid @enderror"
+                                                name="keterangan" id="keterangan" autofocus required>
+                                            @error('keterangan')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="keterangan" class="form-label">Habis Pakai</label>
+                                            <select class="form-select" id="hbs_pakai" name="hbs_pakai">
+                                                <option value="0">
+                                                    Tidak Habis Pakai
+                                                </option>
+                                                <option value="1">
+                                                    Habis pakai
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <input type="hidden" class="form-control @error('status') is-invalid @enderror"
+                                                name="status" id="status" value="1">
+                                        </div>
+                                        <div>
+                                            <input type="hidden"
+                                                class="form-control @error('status_detail') is-invalid @enderror"
+                                                name="status_detail" id="status_detail" value="1">
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Tambah</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                {{-- --}}
+
                 <!-- Tambah Peminjaman -->
-                <x-form_modal>
+                {{-- <x-form_modal>
                     @slot('id', 'tambahPinjam')
                     @slot('title', 'Tambah Peminjaman')
                     @slot('overflow', 'overflow-auto')
@@ -88,18 +178,18 @@
                             </select>
                         </div>
                         <div>
-                            <input type="hidden" class="form-control @error('status') is-invalid @enderror" name="status"
-                                id="status" value="1">
+                            <input type="hidden" class="form-control @error('status') is-invalid @enderror"
+                                name="status" id="status" value="1">
                         </div>
                         <div>
                             <input type="hidden" class="form-control @error('status_detail') is-invalid @enderror"
                                 name="status_detail" id="status_detail" value="1">
                         </div>
                     </div>
+                </x-form_modal> --}}
+                {{-- Akhir Tambah Peminjaman --}}
 
-                </x-form_modal>
                 {{-- / Edit Check --}}
-
                 <div class="card mt-2">
                     <div class="card-body">
                         <table id="myTable" class="table responsive nowrap table-bordered table-striped align-middle"
