@@ -48,7 +48,7 @@ Route::prefix('/dashboard')->group(function (){
 
     Route::prefix('/laporan')->group(function () {
         Route::prefix('/laporan-barang', )->group(function () {
-            Route::get('dt-laporan', [LaporanBarangController::class, 'dt_laporan'])->name('laporan.dt-laporan');
+            Route::get('dt-laporan', [LaporanBarangController::class, 'dt_laporan'])->name('laporan.dt-laporan')->middleware('auth');
             Route::resource('/laporan-barang-utama', LaporanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
             Route::resource('/laporan-barang-mingguan', LaporanMingguanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
             Route::resource('/laporan-barang-bulanan', LaporanBulananBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
