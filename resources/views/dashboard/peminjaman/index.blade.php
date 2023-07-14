@@ -34,7 +34,6 @@
                     @slot('title', 'Tambah Peminjaman')
                     @slot('overflow', 'overflow-auto')
                     @slot('route', route('peminjaman.store'))
-                    @csrf
                     <div class="row">
                         <div class="mb-3">
                             <label for="barang" class="form-label">Barang</label>

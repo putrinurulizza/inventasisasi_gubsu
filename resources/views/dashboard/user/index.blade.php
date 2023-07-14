@@ -1,8 +1,8 @@
 @extends('dashboard.layouts.main')
 
 @section('content')
-    <div class="container">
-        <h2 class="main-title mt-2 fw-semibold fs-3">Tabel Data User</h2>
+  <div class="container">
+    <h2 class="main-title mt-2 fw-semibold fs-3">Tabel Data User</h2>
 
         <div class="row">
             <div class="col-sm-6 col-md">
@@ -42,9 +42,9 @@
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $user->nama }}</td>
-                                        <td>{{ $user->username }}</td>
+                                        <td>{{ $loop->iteration}}</td>
+                                        <td>{{ $user->nama}}</td>
+                                        <td>{{ $user->username}}</td>
                                         <td>
                                             @php
                                                 if ($user->role == 1) {
@@ -81,7 +81,6 @@
                                         @slot('method') @method('put') @endslot
                                         @slot('btnPrimaryTitle', 'Perbarui')
 
-                                        @csrf
                                         <div class="mb-3">
                                             <label for="nama" class="form-label">Nama</label>
                                             <input type="name" class="form-control @error('nama') is-invalid @enderror"
@@ -168,12 +167,12 @@
         </div>
     </div>
 
-    <!-- Modal Tambah User -->
-    <x-form_modal>
-        @slot('id', 'tambahUser')
-        @slot('title', 'Tambah Data User')
-        @slot('overflow', 'overflow-auto')
-        @slot('route', route('user.store'))
+        <!-- Modal Tambah User -->
+        <x-form_modal>
+            @slot('id', 'tambahUser')
+            @slot('title', 'Tambah Data User')
+            @slot('overflow', 'overflow-auto')
+            @slot('route', route('user.store'))
 
         @csrf
         <div class="row">

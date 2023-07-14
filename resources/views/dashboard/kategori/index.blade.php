@@ -61,7 +61,6 @@
                                         @endif
                                     </tr>
 
-
                                     <!-- Edit Data Kategori -->
                                     <x-form_modal>
                                         @slot('id', "editmodal$loop->iteration")

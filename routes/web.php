@@ -33,8 +33,8 @@ Route::controller(LoginController::class)->group(function () {
     Route::post('/logout', 'logout');
 });
 
-Route::prefix('/dashboard')->group(function () {
-    Route::get('/home', [DashboardController::class, 'index'])->name('dashboard.index')->middleware('auth');
+Route::prefix('/dashboard')->group(function (){
+    Route::get('/home',[DashboardController::class, 'index'])->name('dashboard.index')->middleware('auth');
 
     Route::resource('/kategori', KategoriController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
@@ -47,16 +47,15 @@ Route::prefix('/dashboard')->group(function () {
     Route::put('/resetpassword/{user}', [ResetPasswordController::class, 'resetPasswordAdmin'])->name('resetpassword.resetPasswordAdmin')->middleware('auth');
 
     Route::prefix('/laporan')->group(function () {
-        Route::prefix('/laporan-barang',)->group(function () {
-            Route::get('dt-laporan', [LaporanBarangController::class, 'dt_laporan'])->name('laporan.dt-laporan')->middleware('auth');
+        Route::prefix('/laporan-barang', )->group(function () {
+            Route::get('dt-laporan', [LaporanBarangController::class, 'dt_laporan'])->name('laporan.dt-laporan');
             Route::resource('/laporan-barang-utama', LaporanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
             Route::resource('/laporan-barang-mingguan', LaporanMingguanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
             Route::resource('/laporan-barang-bulanan', LaporanBulananBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
             Route::resource('/laporan-barang-tahunan', LaporanTahunanBarangController::class)->except(['create', 'show', 'edit'])->middleware('auth');
         });
 
-        Route::prefix('/laporan-peminjaman',)->group(function () {
-            Route::get('dt-laporan-pinjam', [LaporanPeminjamanController::class, 'dt_laporan'])->name('laporan.dt-laporan-pinjam')->middleware('auth');
+        Route::prefix('/laporan-peminjaman', )->group(function () {
             Route::resource('/laporan-peminjaman-utama', LaporanPeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
             Route::resource('/laporan-peminjaman-mingguan', LaporanMingguanPeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
             Route::resource('/laporan-peminjaman-bulanan', LaporanBulananPeminjamanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
